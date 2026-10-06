@@ -55,6 +55,8 @@ textarea,input[type=text]{width:100%;border:1px solid var(--line);background:#0c
 .fb{border:2px dashed #f1b96a77;border-radius:14px;padding:10px 14px;width:124px;transition:.5s var(--e)}.fb u{display:block;height:5px;border-radius:3px;background:var(--line);margin:7px 0}.fb u:nth-child(2){width:70%}.door:hover .fb{border-color:var(--a2);transform:rotate(-4deg) scale(1.06)}
 .go{position:absolute;right:20px;bottom:20px;width:46px;height:46px;border-radius:50%;display:grid;place-items:center;border:1px solid #ffffff33;font-size:20px;transition:.45s var(--e)}.door:hover .go{background:var(--k);color:#06130f;border-color:var(--k);transform:translateX(6px) rotate(-45deg)}
 @media(max-width:640px){#doors{flex-direction:column;gap:12px;top:40%}.door{min-height:150px;width:100%;padding:18px}.door.a,.door.b{margin:0}.door em{font-size:96px}.viz{display:none}.door h3{margin-top:auto}}
+#ct{white-space:pre-wrap;font:14px/1.65 Inter,sans-serif;color:#b9c0cd;background:#0c0f15;border:1px solid var(--line);border-radius:12px;padding:14px;max-height:280px;overflow:auto;margin:10px 0 0;animation:pop .5s var(--e)}
+.bk{cursor:pointer;transition:.3s var(--e)}.bk:hover,.bk.sel{border-color:var(--acc)}.bk.sel b{color:var(--acc)}.big{font:600 clamp(36px,8vw,54px)/1 Unbounded,sans-serif;text-align:center}#ovr{scroll-margin-top:70px}
 /* overlays */
 #wipe{position:fixed;inset:0;z-index:40;pointer-events:none;opacity:0;background:radial-gradient(circle at 50% 50%,#173a36,#0a1514)}
 #modal[hidden]{display:none}#modal{position:fixed;inset:0;z-index:20;background:#05070b99;backdrop-filter:blur(5px);display:grid;place-items:center;padding:18px;animation:fade .3s}.mbox{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:24px;max-width:420px;width:100%;animation:pop .35s var(--e)}.mbox p{color:var(--mute);margin:8px 0 0}
@@ -78,9 +80,10 @@ body.busy .chip,body.busy .work button{pointer-events:none;opacity:.55}:focus-vi
 
 <section class="view" id="v-auth"><div class="wrap">
 <h1 class="rv" style="font-size:clamp(24px,5vw,40px)" data-i="b_auth"></h1><p class="sub rv" data-i="a_p"></p>
-<div class="card rv l"><div class="chips" id="wchips"></div></div>
-<div class="card rv r lock" id="aText"><textarea id="ta" rows="8" data-p="ph"></textarea><div class="row"><span class="small" id="wa"></span><span class="sp"></span><button class="chip" id="anew" data-i="a_new"></button><button class="btn ghost" id="cfa" data-i="file"></button><input id="fa" type="file" accept=".txt,.docx,.pdf" hidden><button class="btn" id="ga" data-i="go"></button></div><div class="err" id="ea" role="alert"></div></div>
-<div id="rh-auth"></div></div></section>
+<div class="card rv l" id="trc"><h3 data-i="tr_h"></h3><p class="small" id="trs" style="margin:6px 0 12px"></p><div class="chips" id="wchips"></div><div class="works" id="bks"></div>
+<div id="cv" style="display:none"><div class="row"><button class="chip" id="cp">‹</button><span class="small" id="cn"></span><button class="chip" id="cx">›</button><span class="sp"></span><button class="chip" id="cuse" data-i="use"></button></div><pre id="ct"></pre></div></div>
+<div class="card rv r" id="aText"><h3 data-i="t_h"></h3><textarea id="ta" rows="8" data-p="ph_a" style="margin-top:12px"></textarea><div class="row"><span class="small" id="wa"></span><span class="sp"></span><button class="btn ghost" id="cfa" data-i="file"></button><input id="fa" type="file" accept=".txt,.docx,.pdf" hidden></div><div class="row"><button class="btn" id="gov" data-i="b_ov"></button><button class="btn ghost" id="gor" data-i="b_or"></button></div><div class="err" id="ea" role="alert"></div></div>
+<div id="rh-auth"><div id="ovr"></div></div></div></section>
 
 <section class="view" id="v-mine"><div class="wrap">
 <h1 class="rv" style="font-size:clamp(24px,5vw,40px)" data-i="m_h"></h1><p class="sub rv" data-i="m_p"></p>
@@ -113,9 +116,18 @@ c1t:['Texts come in','Тексты загружаются','Мәтіндер ж�
 c2t:['Style becomes a fingerprint','Стиль становится отпечатком','Стиль саусақ ізіне айналады'],c2d:['Rhythm, punctuation, function words.','Ритм, пунктуация, служебные слова.','Ырғақ, тыныс белгілері, көмекші сөздер.'],
 c3t:['New text gets a verdict','Новый текст получает вердикт','Жаңа мәтін үкім алады'],c3d:['How close it is to the profile, in percent.','Насколько он близок к профилю — в процентах.','Профильге қаншалықты жақын — пайызбен.'],
 c4t:['Choose your path','Выберите путь','Жолды таңдаңыз'],c4d:['Two separate modes.','Два отдельных режима.','Екі бөлек режим.'],
-da:['Ready-made profiles. Pick a writer, take a passage, check.','Готовые профили. Выберите автора, возьмите отрывок и проверьте.','Дайын профильдер. Автор таңдап, үзінді алып, тексеріңіз.'],
+da:['Browse the model\'s training data and check whether your text was part of it.','Просмотрите обучающие данные модели и проверьте, не входил ли в них ваш текст.','Модельдің оқыту деректерін қарап, мәтініңіздің оларға кіргенін тексеріңіз.'],
 dm:['Upload your own works and check new text against them.','Загрузите свои работы и сверяйте с ними новые тексты.','Өз жұмыстарыңызды жүктеп, жаңа мәтінді салыстырыңыз.'],
-a_p:['Pick a writer, then check a passage — ours or your own.','Выберите автора и проверьте отрывок — наш или свой.','Автор таңдап, үзіндіні тексеріңіз — біздікін немесе өзіңіздікін.'],a_new:['Another passage','Другой отрывок','Басқа үзінді'],
+a_p:['Everything the model was trained on: browse it, then check your own text against it.','Вся база, на которой обучена модель: просмотрите её и сверьте с ней свой текст.','Модель оқытылған барлық база: қарап шығып, өз мәтініңізді салыстырыңыз.'],
+tr_h:['Training data','Обучающие данные','Оқыту деректері'],tr_s:['{a} authors · {b} books · {w} words','Авторов: {a} · книг: {b} · слов: {w}','Автор: {a} · кітап: {b} · сөз: {w}'],bk:['{c} excerpts · {w} words','отрывков: {c} · слов: {w}','үзінді: {c} · сөз: {w}'],
+ch:['Excerpt {i} of {n}','Отрывок {i} из {n}','{n} ішінен {i}-үзінді'],use:['Copy to the box below','Вставить в поле ниже','Төмендегі өріске қою'],t_h:['Your text','Ваш текст','Сіздің мәтініңіз'],
+ph_a:['Paste or upload a work or a passage by one of these authors…','Вставьте или загрузите произведение или отрывок одного из авторов…','Осы авторлардың бірінің шығармасын немесе үзіндісін қойыңыз не жүктеңіз…'],
+b_ov:['Check match with training data','Проверить совпадение с обучающими данными','Оқыту деректерімен сәйкестікті тексеру'],b_or:['Check originality','Проверить оригинальность','Түпнұсқалықты тексеру'],
+ov_f:['Found in training data','Есть в обучающих данных','Оқыту деректерінде бар'],ov_p:['Partly found','Частично найдено','Ішінара табылды'],ov_n:['Not found','Не найдено','Табылмады'],
+ov_ef:['This text (or most of it) was used to train the model. Don\'t use it as a test.','Этот текст (или большая его часть) использовался для обучения модели. Не используйте его как проверочный.','Бұл мәтін (немесе негізгі бөлігі) модельді оқытуға қолданылған. Тексеру үшін пайдаланбаңыз.'],
+ov_ep:['Some passages match the training data.','Часть фрагментов совпадает с обучающими данными.','Кейбір үзінділер оқыту деректерімен сәйкес келеді.'],ov_en:['No overlap with the training data: safe to use as an unseen text.','Совпадений с обучающими данными нет: текст можно использовать как новый.','Оқыту деректерімен сәйкестік жоқ: мәтінді жаңа ретінде қолдануға болады.'],
+ov_src:['Where it matches','Где совпадает','Қайда сәйкес келеді'],open:['Open','Открыть','Ашу'],e_s20:['At least 20 words needed.','Нужно минимум 20 слов.','Кемінде 20 сөз қажет.'],e_pick:['Pick an author above first.','Сначала выберите автора выше.','Алдымен жоғарыдан авторды таңдаңыз.'],
+
 m_h:['Build your portfolio','Соберите портфолио','Портфолио құрыңыз'],m_p:['Add 3+ earlier works (≈1,500+ words). Everything stays in this tab and is never stored.','Добавьте 3+ прежних работы (≈1500+ слов). Всё остаётся в этой вкладке и нигде не хранится.','3+ бұрынғы жұмыс қосыңыз (≈1500+ сөз). Барлығы осы бетте қалады, еш жерде сақталмайды.'],
 drop:['Drop .txt, .docx or .pdf here, or click','Перетащите .txt, .docx или .pdf или нажмите','.txt, .docx немесе .pdf файлды сүйреңіз не басыңыз'],reading:['Reading files…','Читаем файлы…','Файлдар оқылуда…'],
 paste:['Or paste a text','Или вставьте текст','Немесе мәтін қойыңыз'],ptitle:['Title (optional)','Название (необязательно)','Атауы (міндетті емес)'],ptext:['Paste an earlier work…','Вставьте прежнюю работу…','Бұрынғы жұмысты қойыңыз…'],
@@ -141,8 +153,7 @@ e_s50:['“{n}”: at least 50 words needed.','«{n}»: нужно миниму�
 e_full:['Portfolio is full (30 works).','Портфолио заполнено (30 работ).','Портфолио толды (30 жұмыс).'],e_noport:['Add at least one work first.','Сначала добавьте хотя бы одну работу.','Алдымен кемінде бір жұмыс қосыңыз.'],
 e_notext:['Paste or upload a text to check.','Вставьте или загрузите текст.','Мәтінді қойыңыз немесе жүктеңіз.'],e_read:['Couldn\'t read “{n}”. Paste the text instead.','Не удалось прочитать «{n}». Вставьте текст.','«{n}» оқылмады. Мәтінді қойыңыз.'],
 net:['No connection to the server.','Нет связи с сервером.','Серверге қосылу жоқ.'],fast:['Too fast — wait a few minutes.','Слишком часто — подождите пару минут.','Тым жиі — бірнеше минут күтіңіз.'],busy:['Service is busy, try again.','Сервис занят, повторите.','Сервис бос емес, қайталаңыз.'],
-gen:['Something went wrong. Try again.','Что-то пошло не так. Повторите.','Бірдеңе дұрыс болмады. Қайталаңыз.'],leak:['This text is already in your portfolio.','Этот текст уже есть в портфолио.','Бұл мәтін портфолиода бар.'],
-noan:['Couldn\'t analyze: need English prose of 50+ words.','Не удалось: нужна английская проза от 50 слов.','Талдау мүмкін болмады: 50+ сөзді ағылшын прозасы қажет.']};
+gen:['Something went wrong. Try again.','Что-то пошло не так. Повторите.','Бірдеңе дұрыс болмады. Қайталаңыз.'],leak:['This text is already among the stored works.','Этот текст уже есть среди сохранённых работ.','Бұл мәтін сақталған жұмыстар арасында бар.'],noan:['Couldn\'t analyze: need English prose of 50+ words.','Не удалось: нужна английская проза от 50 слов.','Талдау мүмкін болмады: 50+ сөзді ағылшын прозасы қажет.']};
 const RL=[['very low','moderate','good'],['очень низкая','средняя','хорошая'],['өте төмен','орташа','жақсы']];
 let L=0;try{L=+(sessionStorage.getItem('shyn.l')??({ru:1,kk:2}[navigator.language.slice(0,2)]||0))}catch(e){}
 const t=(k,v)=>{let s=(D[k]||[k,k,k])[L];for(const x in v)s=s.replace('{'+x+'}',v[x]);return s},nice=n=>n.replace(/([a-z.])([A-Z])/g,'$1 $2');
@@ -170,14 +181,36 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-go]');if(b
 addEventListener('popstate',()=>{const h=location.hash.slice(1);setView(VS.includes(h)?h:'home')});
 /* ---- language ---- */
 function applyLang(){document.documentElement.lang=['en','ru','kk'][L];document.querySelectorAll('[data-i]').forEach(e=>e.textContent=t(e.dataset.i));document.querySelectorAll('[data-p]').forEach(e=>e.placeholder=t(e.dataset.p));
- document.querySelectorAll('.lg').forEach(b=>b.classList.toggle('on',+b.dataset.l==L));renderA();renderM();cnt('ta','wa');cnt('tm','wm');if(LR)show(0)}
+ document.querySelectorAll('.lg').forEach(b=>b.classList.toggle('on',+b.dataset.l==L));renderA();renderM();cnt('ta','wa');cnt('tm','wm');if(LR)show(0);if(OV)showOv(0)}
 document.querySelectorAll('.lg').forEach(b=>b.onclick=()=>{if(+b.dataset.l==L)return;L=+b.dataset.l;try{sessionStorage.setItem('shyn.l',L)}catch(e){}const m=$('main');m.style.opacity=0;setTimeout(()=>{applyLang();m.style.opacity=1},200)});
 const cnt=(i,w)=>{const n=wc($(i).value);$(w).textContent=n?t('wn',{n:n.toLocaleString()})+(n<1200?' · '+t('wshort'):''):''};
 $('ta').oninput=()=>cnt('ta','wa');$('tm').oninput=()=>cnt('tm','wm');
-/* ---- authors mode ---- */
-function renderA(){const C=$('wchips');C.replaceChildren();writers.forEach(w=>{const b=el('button','chip'+(A.w===w?' on':''),nice(w));b.onclick=()=>pickW(w);C.append(b)});$('aText').classList.toggle('lock',!A.w)}
-async function pickW(w){if(busy||A.w===w)return;setBusy(1);try{const [p,s]=await Promise.all([call('/p/api/preset/'+w),call('/p/api/sample/'+w)]);A={w,works:p.works};$('ta').value=s.text;cnt('ta','wa');$('ea').textContent='';if(LR&&LR.host=='rh-auth'){$('res').style.display='none';LR=null}}catch(x){$('ea').textContent=x.message}setBusy(0);renderA()}
-$('anew').onclick=async()=>{if(busy||!A.w)return;setBusy(1);try{$('ta').value=(await call('/p/api/sample/'+A.w)).text;cnt('ta','wa');$('ea').textContent=''}catch(x){$('ea').textContent=x.message}setBusy(0)};
+/* ---- authors mode: browse the training base, check overlap, check originality ---- */
+let CO=[],OV=null,V={a:null,b:null,i:0,n:0};
+function renderA(){const C=$('wchips');C.replaceChildren();let tb=0,tw=0;
+ CO.forEach(a=>{a.books.forEach(b=>{tb++;tw+=b.words});const k=el('button','chip'+(A.w===a.name?' on':''),nice(a.name));k.onclick=()=>pickW(a.name);C.append(k)});
+ $('trs').textContent=CO.length?t('tr_s',{a:CO.length,b:tb,w:tw.toLocaleString()}):'';
+ const B=$('bks');B.replaceChildren();const au=CO.find(a=>a.name===A.w);
+ (au?au.books:[]).forEach(b=>{const d=el('div','work bk'+(V.b===b.name?' sel':''));d.append(el('b','',b.name.replace(/_/g,' ')),el('span','',t('bk',{c:b.chunks,w:b.words.toLocaleString()})));d.onclick=()=>showChunk(au.name,b.name,0);B.append(d)});
+ $('cv').style.display=V.a?'block':'none';if(V.a)$('cn').textContent=t('ch',{i:V.i+1,n:V.n})}
+function selW(w){if(A.w!==w){A={w,works:[]};if(LR&&LR.host=='rh-auth'){$('res').style.display='none';LR=null}}}
+const pickW=w=>{const au=CO.find(a=>a.name===w);if(au&&!busy&&A.w!==w)showChunk(w,au.books[0].name,0)};
+async function showChunk(a,b,i){if(busy)return;setBusy(1);try{const r=await call('/p/api/chunk?a='+encodeURIComponent(a)+'&b='+encodeURIComponent(b)+'&i='+i);selW(a);V={a,b,i,n:r.n};$('ct').textContent=r.text;$('ct').scrollTop=0;$('ea').textContent=''}catch(x){$('ea').textContent=x.message}setBusy(0);renderA()}
+$('cp').onclick=()=>V.i>0&&showChunk(V.a,V.b,V.i-1);$('cx').onclick=()=>V.i<V.n-1&&showChunk(V.a,V.b,V.i+1);
+$('cuse').onclick=()=>{$('ta').value=$('ct').textContent;cnt('ta','wa');$('ta').scrollIntoView({behavior:'smooth',block:'center'})};
+async function runOv(){if(busy)return;const E=$('ea'),x=$('ta').value,b=$('gov'),o=b.textContent;E.textContent='';if(wc(x)<20)return E.textContent=t(x.trim()?'e_s20':'e_notext');
+ setBusy(1);b.disabled=true;b.textContent=t('st1');
+ try{OV=await call('/p/api/overlap',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({text:x})});showOv(1)}catch(y){E.textContent=y.message}
+ b.disabled=false;b.textContent=o;setBusy(0)}
+function showOv(sc){const r=OV,p=r.percent,k=p>=40?0:p>=3?1:2,host=$('ovr');host.replaceChildren();
+ const c=el('div','card rv'),g=el('div','hero'),n=el('div'),big=el('div','big',Math.round(p)+'%'),d=el('div');n.append(big);
+ d.append(el('span','pill '+['MISMATCH','UNCERTAIN','MATCH'][k],t(['ov_f','ov_p','ov_n'][k])),el('h3','',t('b_ov')),el('p','',t(['ov_ef','ov_ep','ov_en'][k])));g.append(n,d);c.append(g);
+ if(r.top.length){c.append(el('p','small',t('ov_src')));r.top.forEach(s=>{const w=el('div','work'),o=el('button','chip',t('open'));w.append(el('b','',nice(s.a)+' · '+s.b.replace(/_/g,' ')+' · #'+(s.i+1)),el('span','',s.p+'%'),o);o.onclick=()=>{showChunk(s.a,s.b,s.i);$('trc').scrollIntoView({behavior:'smooth'})};c.append(w)})}
+ host.append(c);setTimeout(()=>c.classList.add('seen'),60);if(sc){cu(big,p,900);setTimeout(()=>host.scrollIntoView({behavior:'smooth'}),120)}}
+$('gov').onclick=runOv;
+$('gor').onclick=async()=>{if(busy)return;const E=$('ea');E.textContent='';if(!A.w)return E.textContent=t('e_pick');
+ if(!A.works.length){setBusy(1);try{A.works=(await call('/p/api/preset/'+A.w)).works}catch(y){E.textContent=y.message}setBusy(0);if(!A.works.length)return}
+ run({e:'ea',t:'ta',b:'gor',host:'rh-auth',works:()=>A.works,preset:A.w})};
 /* ---- own portfolio mode ---- */
 function addWork(title,text){text=text.trim();const n=title;if(!english(text))return t('e_eng',{n});if(wc(text)<50)return t('e_s50',{n});if(M.some(w=>w.text===text))return t('e_dup',{n});if(M.length>=30)return t('e_full');M.push({id:Math.random().toString(36).slice(2,9),title:title.slice(0,80),text,words:wc(text)})}
 const upd=er=>{save();renderM();$('e1').textContent=(er||[]).filter(Boolean).join(' ')};
@@ -200,12 +233,11 @@ const bindF=(b,i,ta,w,er)=>{$(b).onclick=()=>$(i).click();$(i).onchange=async e=
  setBusy(1);try{const f=new FormData();f.append('files',x);const r=await call('/p/api/extract',{method:'POST',body:f});if(!r.works.length){const q=r.errors[0]||{k:'gen'};throw Error(t(q.k,{n:q.n}))}$(ta).value=r.works[0].text;cnt(ta,w);$(er).textContent=''}catch(y){$(er).textContent=y.message}setBusy(0)}};
 bindF('cfa','fa','ta','wa','ea');bindF('cfm','fm','tm','wm','em');
 /* ---- analyze (shared) ---- */
-async function run(c){if(busy)return;const E=$(c.e),x=$(c.t).value,b=$(c.b);E.textContent='';
+async function run(c){if(busy)return;const E=$(c.e),x=$(c.t).value,b=$(c.b),o=b.textContent;E.textContent='';
  if(!x.trim())return E.textContent=t('e_notext');if(wc(x)<50)return E.textContent=t('e_s50',{n:t('tx')});if(!english(x))return E.textContent=t('e_eng',{n:t('tx')});
  setBusy(1);b.disabled=true;let i=0;b.textContent=t('st0');const iv=setInterval(()=>b.textContent=t('st'+Math.min(++i,2)),3500);
  try{LR={r:await call('/p/api/check',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({works:c.works(),preset:c.preset,text:x})}),host:c.host,tw:c.works().reduce((a,s)=>a+wc(s),0),mine:c.preset==null,n:c.works().length};show(1)}catch(y){E.textContent=y.message}
- clearInterval(iv);b.disabled=false;b.textContent=t('go');setBusy(0)}
-$('ga').onclick=()=>A.w&&run({e:'ea',t:'ta',b:'ga',host:'rh-auth',works:()=>A.works,preset:A.w});
+ clearInterval(iv);b.disabled=false;b.textContent=o;setBusy(0)}
 $('gm').onclick=()=>M.length?run({e:'em',t:'tm',b:'gm',host:'rh-mine',works:()=>M.map(w=>w.text),preset:null}):$('em').textContent=t('e_noport');
 const cu=(e,to,ms=1000)=>{const s=performance.now(),f=n=>{const k=cl((n-s)/ms);e.textContent=Math.round(to*(1-Math.pow(1-k,3)))+'%';if(k<1)requestAnimationFrame(f)};requestAnimationFrame(f)};
 function show(sc){const {r,host,tw,mine,n}=LR,v=r.verify,ab=r.wordCount<200,sh=r.wordCount<1200,pc=Math.round(v.style_similarity_percent),res=$('res');let V=String(v.verdict).toUpperCase();if((sh&&V=='MISMATCH')||ab)V='UNCERTAIN';
@@ -236,6 +268,6 @@ let tk=0;addEventListener('scroll',()=>{if(!tk)tk=requestAnimationFrame(()=>{tic
 if(!RM)addEventListener('pointermove',e=>{const g=$('glow');g.style.left=e.clientX+'px';g.style.top=e.clientY+'px'});
 document.querySelectorAll('.door').forEach(d=>d.addEventListener('pointermove',e=>{const r=d.getBoundingClientRect();d.style.setProperty('--mx',(e.clientX-r.left)/r.width*100+'%');d.style.setProperty('--my',(e.clientY-r.top)/r.height*100+'%')}));
 {const h=location.hash.slice(1);if(VS.includes(h)&&h!='home')setView(h);else tick()}
-applyLang();call('/p/api/writers').then(r=>{writers=r.writers;renderA()}).catch(()=>{});
+applyLang();call('/p/api/corpus').then(r=>{CO=r.authors;renderA()}).catch(()=>{});
 </script></body></html>
 {% endraw %}

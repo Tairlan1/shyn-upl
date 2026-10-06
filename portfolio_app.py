@@ -18,6 +18,7 @@ os.environ.setdefault("SHYNDYQ_CANDIDATE_DB_PATH", "/tmp/candidate_texts.db")
 import api_analyze as api
 import author_verification as av
 import doc_extract
+import overlap as ov
 import train_verifier as tv
 
 ROOT = Path(__file__).parent
@@ -127,6 +128,46 @@ def extract():
             continue
         works.append({"title": name[:80], "text": text})
     return jsonify(works=works, errors=errs)
+
+_STATS, _OV = {}, {}
+
+
+def overlap_index():
+    if not _OV:  # prebuilt by build_overlap_index.py; rebuilt in memory (slow) only if missing/outdated
+        try:
+            _OV["x"] = ov.load(ROOT / "data_processed" / "overlap_index.npz")
+        except Exception:
+            H, C, src = ov.build(corpus())
+            _OV["x"] = (H, C, src)
+    return _OV["x"]
+
+
+@app.get("/p/api/corpus")
+def corpus_info():  # what the model was trained on: authors > books > number of excerpts / words
+    if not _STATS:
+        _STATS["a"] = [{"name": a, "books": [{"name": b, "chunks": len(ch), "words": sum(len(t.split()) for t in ch)}
+                                              for b, ch in sorted(bk.items())]} for a, bk in sorted(corpus().items())]
+    return jsonify(authors=_STATS["a"])
+
+
+@app.get("/p/api/chunk")
+def chunk():
+    a, b, i = request.args.get("a", ""), request.args.get("b", ""), request.args.get("i", 0, type=int)
+    ch = corpus().get(a, {}).get(b)
+    if not ch or not 0 <= i < len(ch):
+        return err("Unknown excerpt.", 404)
+    return jsonify(text=ch[i], n=len(ch))
+
+
+@app.post("/p/api/overlap")
+def overlap():  # is this text (or part of it) already in the training data?
+    if limited("o", 40):
+        return err("You're going a little fast. Please wait a few minutes and try again.", 429, "fast")
+    text = str((request.get_json(silent=True) or {}).get("text", ""))[:MAX_WORK_CHARS]
+    r = ov.query(text, *overlap_index()) if len(text.split()) >= 20 else None
+    if r is None:
+        return err("Please add at least 20 words.", 400, "e_s20")
+    return jsonify(**r, wordCount=len(text.split()))
 
 
 @app.get("/p/api/preset/<writer>")
