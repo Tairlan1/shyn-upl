@@ -1,0 +1,139 @@
+{
+  "open_set_author_excluded": "MarkTwain",
+  "known_authors": [
+    "ArthurConanDoyle",
+    "EdgarAllanPoe",
+    "H.G.Wells",
+    "JackLondon"
+  ],
+  "book_split": {
+    "ArthurConanDoyle": {
+      "train": [
+        "Book_16",
+        "Book_3",
+        "Book_14",
+        "Book_15",
+        "Book_8",
+        "Book_4",
+        "Book_6",
+        "Book_2",
+        "Book_10",
+        "Book_11"
+      ],
+      "validation": [
+        "Book_7",
+        "Book_9",
+        "Book_13"
+      ],
+      "test": [
+        "Book_5",
+        "Book_1",
+        "Book_12"
+      ]
+    },
+    "EdgarAllanPoe": {
+      "train": [
+        "Book_7",
+        "Book_4",
+        "Book_3",
+        "Book_1"
+      ],
+      "validation": [
+        "Book_6"
+      ],
+      "test": [
+        "Book_5",
+        "Book_2"
+      ]
+    },
+    "H.G.Wells": {
+      "train": [
+        "Book_4",
+        "Book_7",
+        "Book_3",
+        "Book_17",
+        "Book_9",
+        "Book_10",
+        "Book_5",
+        "Book_14",
+        "Book_15",
+        "Book_11"
+      ],
+      "validation": [
+        "Book_1",
+        "Book_13",
+        "Book_2"
+      ],
+      "test": [
+        "Book_16",
+        "Book_12",
+        "Book_6"
+      ]
+    },
+    "JackLondon": {
+      "train": [
+        "Book_9",
+        "Book_8",
+        "Book_11",
+        "Book_6",
+        "Book_12",
+        "Book_3",
+        "Book_5",
+        "Book_2",
+        "Book_1"
+      ],
+      "validation": [
+        "Book_13",
+        "Book_4",
+        "Book_7"
+      ],
+      "test": [
+        "Book_14",
+        "Book_10",
+        "Book_15"
+      ]
+    }
+  },
+  "n_training_pairs": 480,
+  "n_training_pairs_positive": 240,
+  "verifier_coefficients": {
+    "sim_char": -0.2178971383312448,
+    "sim_word": 0.5775766293033661,
+    "stylo_cosine": 0.6034673094084468,
+    "stylo_delta_sim": 0.18610494520910725,
+    "fw_cos": 0.2789746158039936,
+    "fw_delta": -0.2721684461005892,
+    "pu_cos": 0.03594810828725572,
+    "pu_delta": 0.4600358908991689,
+    "sim_char_x_lq": -0.3033972573317459,
+    "sim_char_x_ln": -0.21789713833124272,
+    "sim_word_x_lq": 0.5091085203595354,
+    "sim_word_x_ln": 0.577576629303367,
+    "stylo_delta_sim_x_lq": 0.12298925823044037,
+    "stylo_delta_sim_x_ln": 0.18610494520910778,
+    "fw_delta_x_lq": -0.345867866621843,
+    "fw_delta_x_ln": -0.27216844610059093,
+    "fw_cos_x_lq": 0.29899576072730477,
+    "fw_cos_x_ln": 0.27897461580399185
+  },
+  "verifier_intercept": 0.11189027172169344,
+  "threshold_match": 0.9261130018791661,
+  "threshold_mismatch": 0.7588931894797548,
+  "target_far": 0.02,
+  "validation_metrics": {
+    "n_positive": 160,
+    "n_negative": 160,
+    "mean_positive_score": 0.9358148683961189,
+    "mean_negative_score": 0.5169271742081409,
+    "roc_auc": 0.9536328125,
+    "pr_auc": 0.9617670024992638,
+    "eer": 0.13125,
+    "eer_threshold": 0.8415959771105311,
+    "tpr_at_far_0.02": 0.7875,
+    "threshold_match": 0.9261130018791661,
+    "threshold_mismatch": 0.7588931894797548,
+    "far_at_match_threshold": 0.01875,
+    "frr_at_match_threshold": 0.2125
+  },
+  "random_seed": 42
+}

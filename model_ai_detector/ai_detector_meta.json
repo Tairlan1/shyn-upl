@@ -1,0 +1,19 @@
+{
+  "n_ai_examples": 70,
+  "n_human_examples": 85,
+  "ai_sources": {
+    "claude_legacy": 70
+  },
+  "human_sources": [
+    "brown",
+    "reuters",
+    "gutenberg",
+    "webtext",
+    "project_5author_corpus"
+  ],
+  "cv_accuracy": 0.9871,
+  "cv_roc_auc": 0.9987,
+  "target_chunk_words": 190,
+  "leave_one_source_out": "not_measured_single_source",
+  "limitations": "AI class currently spans 1 source(s): ['claude_legacy']. Generalization to other LLM families is NOT measured (single source) - do not treat cv_accuracy/cv_roc_auc as evidence of accuracy on arbitrary modern LLM output. Small dataset overall (~155 examples); cross-validation accuracy reflects this specific data distribution, not necessarily real-world student submissions. Not a substitute for professional commercial AI detectors."
+}

@@ -1,0 +1,54 @@
+{
+  "authors": [
+    "ArthurConanDoyle",
+    "EdgarAllanPoe",
+    "H.G.Wells",
+    "JackLondon",
+    "MarkTwain"
+  ],
+  "n_chunks_trained_on": 56407,
+  "held_out_accuracy": 0.7256486601446193,
+  "held_out_macro_f1": 0.7184470820090316,
+  "held_out_metrics_by_scale": {
+    "large": {
+      "n": 495,
+      "accuracy": 0.9919191919191919,
+      "macro_f1": 0.9910503698185303
+    },
+    "medium": {
+      "n": 989,
+      "accuracy": 0.9757330637007078,
+      "macro_f1": 0.9736643206604023
+    },
+    "phrase": {
+      "n": 1980,
+      "accuracy": 0.6181818181818182,
+      "macro_f1": 0.6000770119874131
+    },
+    "semi_small": {
+      "n": 1485,
+      "accuracy": 0.94006734006734,
+      "macro_f1": 0.9377884330955082
+    },
+    "sentence": {
+      "n": 2970,
+      "accuracy": 0.5249158249158249,
+      "macro_f1": 0.5149072298884295
+    },
+    "window": {
+      "n": 1485,
+      "accuracy": 0.8006734006734006,
+      "macro_f1": 0.7954424968394329
+    }
+  },
+  "scale_distribution_trained_on": {
+    "large": 2970,
+    "semi_small": 8905,
+    "sentence": 17820,
+    "window": 8910,
+    "phrase": 11880,
+    "medium": 5922
+  },
+  "target_words_per_chunk": "1450-1550 (см. preprocess_corpus.py)",
+  "ood_detector": "IsolationForest поверх TruncatedSVD(features), см. ood_novelty.joblib"
+}

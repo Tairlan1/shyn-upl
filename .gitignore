@@ -1,0 +1,36 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+*.egg-info/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Secrets (never commit)
+.env
+.env.*
+*.key
+*.pem
+
+# Local databases / runtime files
+*.db
+*.sqlite3
+nohup.out
+*.log
+
+# Editors / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Deploy tooling
+.vercel/
+.netlify/
+
+# NOTE: do NOT ignore model_*/ , data_processed/ or templates/ - the app needs them to run.
