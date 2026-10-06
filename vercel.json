@@ -3,7 +3,7 @@
   "functions": {
     "portfolio_app.py": {
       "maxDuration": 60,
-      "includeFiles": "**"
+      "excludeFiles": "{.git/**,.venv/**,venv/**,README.md,Dockerfile,.dockerignore}"
     }
   }
 }
