@@ -52,13 +52,13 @@ def limited(kind, n, window=600):
     return False
 
 
-def err(msg, code):
-    return jsonify(error=msg), code
+def err(msg, code, k=None):
+    return jsonify(error=msg, k=k), code  # k = message key the UI translates (ru/en/kk)
 
 
 @app.errorhandler(413)
 def _413(e):
-    return err("That file is too large. Please use files under 4 MB in total.", 413)
+    return err("That file is too large. Please use files under 4 MB in total.", 413, "e_big")
 
 
 @app.errorhandler(404)
@@ -110,20 +110,20 @@ def writers():
 @app.post("/p/api/extract")
 def extract():
     if limited("x", 60):
-        return err("You're going a little fast. Please wait a few minutes and try again.", 429)
+        return err("You're going a little fast. Please wait a few minutes and try again.", 429, "fast")
     works, errs = [], []
     for f in request.files.getlist("files")[:MAX_WORKS]:
         name = f.filename or "file"
         if not name.lower().endswith(ALLOWED):
-            errs.append(f"“{name}” isn't supported. Please use .txt, .docx or .pdf files.")
+            errs.append({"k": "e_unsup", "n": name})
             continue
         try:
             text = doc_extract.extract_text(name, f.read())[:MAX_WORK_CHARS]
         except Exception:
-            errs.append(f"We couldn't read “{name}”. If it's scanned or password-protected, copy the text and paste it instead.")
+            errs.append({"k": "e_read", "n": name})
             continue
         if not text.strip():
-            errs.append(f"We couldn't find any text in “{name}”. Scanned documents aren't supported — try pasting the text instead.")
+            errs.append({"k": "e_read", "n": name})
             continue
         works.append({"title": name[:80], "text": text})
     return jsonify(works=works, errors=errs)
@@ -155,17 +155,17 @@ def impostors(enc, skip):
 @app.post("/p/api/check")
 def check():
     if limited("c", 25):
-        return err("You're going a little fast. Please wait a few minutes and try again.", 429)
+        return err("You're going a little fast. Please wait a few minutes and try again.", 429, "fast")
     body = request.get_json(silent=True) or {}
     text = str(body.get("text", ""))
     works = [str(t)[:MAX_WORK_CHARS] for t in (body.get("works") or [])][:MAX_WORKS]
     if not text.strip():
-        return err("Paste or upload the text you want to check.", 400)
+        return err("Paste or upload the text you want to check.", 400, "e_notext")
     if not works or sum(map(len, works)) > MAX_TOTAL:
-        return err("Your portfolio is empty or too large. Add a few earlier works (up to about 2.5 million characters in total).", 400)
+        return err("Your portfolio is empty or too large. Add a few earlier works (up to about 2.5 million characters in total).", 400, "e_noport")
     enc, ver, meta = api._load_verifier()
     if enc is None:
-        return err("The checker is temporarily unavailable. Please try again later.", 503)
+        return err("The checker is temporarily unavailable. Please try again later.", 503, "busy")
     try:
         prof = av.build_author_profile(works, enc, candidate_author_id="anonymous")
         res = av.compare_text_to_profile(
@@ -174,9 +174,9 @@ def check():
             threshold_mismatch=meta.get("threshold_mismatch", api.config.VERIFIER_DEFAULT_THRESHOLD_MISMATCH),
             impostor_pool=impostors(enc, body.get("preset")))
     except av.ProfileLeakageError:
-        return err("This text is already one of the works in your portfolio. Paste a new text to check.", 400)
+        return err("This text is already one of the works in your portfolio. Paste a new text to check.", 400, "leak")
     except ValueError:
-        return err("We couldn't analyze this text. Please check that it's English prose of at least 50 words.", 400)
+        return err("We couldn't analyze this text. Please check that it's English prose of at least 50 words.", 400, "noan")
     pipe, le = api._load_style_model()
     ok = not av.detect_script(text)["likely_non_english"]
     paras = [api._analyze_paragraph(p, "", pipe, le, ok) for p in api._split_paragraphs(text)[:80]]

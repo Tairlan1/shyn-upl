@@ -1,198 +1,240 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="description" content="Build a writing-style portfolio from your earlier work and check whether new text sounds like you."><link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%231f5f5b'/%3E%3Ctext x='16' y='23' font-size='20' text-anchor='middle' fill='%23fff' font-family='Georgia'%3ES%3C/text%3E%3C/svg%3E"><title>Shyndyq · Your writing portfolio</title>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="dark"><title>Shyndyq</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230a0c11'/%3E%3Ctext x='16' y='23' font-size='20' text-anchor='middle' fill='%237be0c6' font-family='Georgia'%3ES%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Unbounded:wght@500;600&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#f6f1e7;--card:#fffdf8;--ink:#1d2433;--mute:#6b7280;--line:#e4dccb;--acc:#1f5f5b;--ok:#2f7d4f;--mid:#b7791f;--bad:#b3392f;--r:16px}
-@media(prefers-color-scheme:dark){:root{--bg:#12151c;--card:#1b2029;--ink:#ece8df;--mute:#9aa3b2;--line:#2b3240;--acc:#5fb3ab;--ok:#5fc28a;--mid:#e0a94a;--bad:#ef7a6f}}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 Inter,system-ui,sans-serif}
-.wrap{max-width:900px;margin:0 auto;padding:28px 18px 80px}
-h1,h2,h3{font-family:Fraunces,Georgia,serif;margin:0}
-header{text-align:center;padding:30px 0 10px}h1{font-size:clamp(34px,6vw,52px);letter-spacing:-.02em}
-header p{color:var(--mute);max-width:560px;margin:10px auto 0}
-.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:22px;margin-top:20px;box-shadow:0 1px 0 rgba(0,0,0,.03)}
-.step{display:flex;gap:12px;align-items:center;margin-bottom:14px}.step b{width:30px;height:30px;border-radius:50%;background:var(--acc);color:var(--bg);display:grid;place-items:center;font-size:14px}
-.step h2{font-size:22px}.sub{color:var(--mute);font-size:14px;margin:-6px 0 14px}
-.chips{display:flex;flex-wrap:wrap;gap:8px}.chip{border:1px solid var(--line);background:transparent;color:var(--ink);border-radius:999px;padding:7px 14px;font:inherit;font-size:14px;cursor:pointer;transition:.15s}
-.chip:hover{border-color:var(--acc);color:var(--acc)}.chip.on{background:var(--acc);color:var(--bg);border-color:var(--acc)}
-.drop{border:2px dashed var(--line);border-radius:var(--r);padding:26px;text-align:center;color:var(--mute);cursor:pointer;transition:.15s;margin-top:14px}
-.drop:hover,.drop.over{border-color:var(--acc);background:color-mix(in srgb,var(--acc) 7%,transparent);color:var(--ink)}
-textarea,input[type=text]{width:100%;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:12px;padding:12px 14px;font:inherit;resize:vertical}
-textarea:focus,input:focus{outline:2px solid var(--acc);outline-offset:1px}
-.btn{background:var(--acc);color:var(--bg);border:0;border-radius:12px;padding:11px 20px;font:600 15px Inter;cursor:pointer;transition:.15s}
-.btn:hover{filter:brightness(1.1)}.btn:disabled{opacity:.5;cursor:wait}.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
-.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:12px}.sp{flex:1}
-.works{margin-top:14px;display:grid;gap:8px}.work{display:flex;align-items:center;gap:10px;border:1px solid var(--line);border-radius:12px;padding:9px 12px;font-size:14px}
-.work span{color:var(--mute);margin-left:auto}.work button{background:none;border:0;color:var(--mute);cursor:pointer;font-size:18px}
-.meter{height:8px;background:var(--line);border-radius:9px;overflow:hidden;margin:8px 0 4px}.meter i{display:block;height:100%;background:var(--acc);transition:width .4s}
-.small{font-size:13px;color:var(--mute)}.err{color:var(--bad);font-size:14px;margin-top:10px}
-#res{display:none}.hero{display:grid;grid-template-columns:230px 1fr;gap:24px;align-items:center}
-@media(max-width:640px){.hero{grid-template-columns:1fr;text-align:center}}
-.pill{display:inline-block;padding:4px 14px;border-radius:999px;font-weight:600;font-size:14px;color:#fff}
-.MATCH{background:var(--ok)}.UNCERTAIN{background:var(--mid)}.MISMATCH{background:var(--bad)}
-.bar{display:grid;grid-template-columns:150px 1fr 46px;gap:10px;align-items:center;font-size:14px;margin:7px 0}
-.bar div{height:9px;background:var(--line);border-radius:9px;overflow:hidden}.bar i{display:block;height:100%;background:var(--acc);transition:width .6s}
-.bar.top i{background:var(--ok)}.strip{display:flex;height:14px;border-radius:9px;overflow:hidden;gap:2px;margin:10px 0}
-.strip i{display:block}.strip .green{background:var(--ok)}.strip .yellow{background:var(--mid)}.strip .red{background:var(--bad)}.strip .none{background:var(--line)}
-.para{font-size:14px;border-left:4px solid var(--line);padding:4px 12px;margin:8px 0;color:var(--mute)}.para.red{border-color:var(--bad)}.para.yellow{border-color:var(--mid)}.para.green{border-color:var(--ok)}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:20px}@media(max-width:700px){.grid2{grid-template-columns:1fr}}
-.rv{opacity:0;transform:translateY(32px);transition:opacity .8s,transform .8s cubic-bezier(.2,.7,.2,1)}.rv.in{opacity:1;transform:none}
-#glow{position:fixed;width:560px;height:560px;border-radius:50%;pointer-events:none;background:radial-gradient(circle,color-mix(in srgb,var(--acc) 13%,transparent),transparent 65%);transform:translate(-50%,-50%);left:50%;top:30%;z-index:0;transition:left .5s,top .5s}
-.wrap{position:relative;z-index:1;overflow-x:clip}#prog{position:fixed;top:0;left:0;height:3px;background:var(--acc);width:0;z-index:9}
-.hero0{overflow:clip;min-height:92vh;min-height:92svh;display:grid;place-items:center;text-align:center;position:relative}
-.hero0 h1{font-size:clamp(52px,12vw,128px);line-height:.95}.hero0 h1 span{display:inline-block;opacity:0;transform:translateY(70px) rotate(7deg);animation:up .9s cubic-bezier(.2,.8,.2,1) forwards}
-@keyframes up{to{opacity:1;transform:none}}.hero0 p{color:var(--mute);max-width:520px;margin:16px auto 22px;animation:fade 1.2s .9s both}@keyframes fade{from{opacity:0}}
-.floaty{position:absolute;font-family:Fraunces,serif;color:var(--acc);opacity:.2;font-size:24px;will-change:transform}
-.cue{position:absolute;bottom:14px;left:50%;width:22px;height:36px;border:2px solid var(--mute);border-radius:12px;transform:translateX(-50%)}.cue::after{content:"";position:absolute;left:50%;top:6px;width:4px;height:7px;margin-left:-2px;border-radius:3px;background:var(--mute);animation:cue 1.6s infinite}@keyframes cue{50%{transform:translateY(10px);opacity:.2}}
-#scrub{height:340vh;position:relative}#stage{position:sticky;top:0;height:100vh;height:100svh;display:grid;place-items:center;overflow:hidden}
-#scene{position:relative;width:min(420px,86vw);height:300px;margin-top:-12vh}
-.sheet{position:absolute;left:50%;top:50%;width:190px;height:250px;margin:-125px 0 0 -95px;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:18px 16px;box-shadow:0 18px 40px rgba(0,0,0,.15);will-change:transform}.sheet u{display:block;height:6px;border-radius:4px;background:var(--line);margin:10px 0}
-#fp{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;gap:5px}#fp i{width:7px;border-radius:5px;background:var(--acc);height:8px}
-#gz{position:absolute;inset:0;display:grid;place-items:center}
-.cap{position:absolute;bottom:8vh;left:0;right:0;height:110px;text-align:center;padding:0 20px}.cap>div{position:absolute;left:0;right:0;opacity:0;transform:translateY(16px);transition:.5s}.cap>div.on{opacity:1;transform:none}.cap h3{font-size:clamp(24px,4vw,40px)}.cap p{color:var(--mute);margin:6px 0 0}
-@media(prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}.hero0 h1 span,.hero0 p{animation:none;opacity:1;transform:none}}
-#modal[hidden]{display:none}#modal{position:fixed;inset:0;z-index:20;background:rgba(10,12,18,.55);backdrop-filter:blur(4px);display:grid;place-items:center;padding:18px}
-.mbox{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:24px;max-width:420px;width:100%;animation:pop .25s}.mbox p{color:var(--mute);margin:8px 0 0}@keyframes pop{from{opacity:0;transform:scale(.96)}}
-#toasts{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);display:grid;gap:8px;z-index:30;width:max-content;max-width:92vw}
-.toast{background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:12px;font-size:14px;display:flex;gap:14px;align-items:center;box-shadow:0 8px 24px rgba(0,0,0,.25);animation:pop .25s}.toast.out{opacity:0;transition:opacity .5s}
-.toast button{background:none;border:0;color:inherit;text-decoration:underline;font:inherit;cursor:pointer}
-body.busy .chip,body.busy .work button{pointer-events:none;opacity:.55}.drop.load{opacity:.65;pointer-events:none}
-.card.pulse{animation:pl 1s 2}@keyframes pl{50%{box-shadow:0 0 0 7px color-mix(in srgb,var(--acc) 35%,transparent)}}
+:root{color-scheme:dark;--bg:#090b10;--card:#11151d;--c2:#181d29;--ink:#ecebe6;--mute:#8b95a7;--line:#252c3b;--acc:#7be0c6;--a2:#f1b96a;--ok:#5fd39a;--mid:#e8b04c;--bad:#f07a6e;--r:18px;--e:cubic-bezier(.2,.8,.2,1)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 Inter,system-ui,sans-serif;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;background:radial-gradient(60vw 50vh at 85% -10%,#1a3a3655,transparent),radial-gradient(50vw 50vh at -10% 100%,#3a2a1a40,transparent)}
+h1,h2,h3{font-family:Unbounded,'Arial Black',sans-serif;margin:0;font-weight:600;letter-spacing:-.02em;line-height:1.15}
+#glow{position:fixed;width:520px;height:520px;border-radius:50%;pointer-events:none;background:radial-gradient(circle,#7be0c61a,transparent 65%);transform:translate(-50%,-50%);left:60%;top:30%;transition:left .6s var(--e),top .6s var(--e)}
+#prog{position:fixed;top:0;left:0;height:2px;width:0;z-index:16;background:linear-gradient(90deg,var(--acc),var(--a2))}
+nav{position:fixed;top:0;left:0;right:0;z-index:15;display:flex;align-items:center;gap:4px;padding:10px 14px;background:#090b10bd;backdrop-filter:blur(14px);border-bottom:1px solid #ffffff0d}
+nav b{font:600 17px Unbounded,sans-serif;cursor:pointer;margin-right:auto}nav i{width:1px;height:18px;background:var(--line);margin:0 6px}
+.tab,.lg{background:none;border:0;color:var(--mute);font:500 14px Inter;padding:7px 12px;border-radius:99px;cursor:pointer;transition:.35s var(--e)}.tab:hover,.lg:hover{color:var(--ink)}.tab.on{color:#06130f;background:var(--acc)}.lg.on{color:var(--ink);background:var(--line)}
+@media(max-width:560px){.tab,.lg{padding:6px 8px;font-size:12.5px}nav b{font-size:17px}nav i{display:none}}
+.view{display:none;padding-top:56px}.view.on{display:block}.wrap{max-width:900px;margin:0 auto;padding:34px 18px 90px;position:relative}.c{justify-content:center}
+.rv{opacity:0;transform:translateY(34px) scale(.98);filter:blur(6px);transition:opacity .8s var(--e),transform .9s var(--e),filter .8s var(--e)}.rv.l{transform:translateX(-60px)}.rv.r{transform:translateX(60px)}.rv.seen{opacity:1;transform:none;filter:none}
+.card{background:linear-gradient(180deg,var(--c2),var(--card));border:1px solid var(--line);border-radius:var(--r);padding:22px;margin-top:20px;transition:opacity .8s var(--e),transform .9s var(--e),filter .8s var(--e),border-color .4s}.card:hover{border-color:#34405a}
+.card.lock{opacity:.35;filter:grayscale(1);pointer-events:none}
+.sub{color:var(--mute);max-width:600px;margin:10px 0 0}.small{font-size:13px;color:var(--mute)}.err{color:var(--bad);font-size:14px;margin-top:10px;min-height:0}
+.btn{background:var(--acc);color:#06130f;border:0;border-radius:14px;padding:12px 22px;font:600 15px Inter;cursor:pointer;text-decoration:none;display:inline-block;transition:transform .35s var(--e),box-shadow .35s,opacity .3s,border-color .3s}
+.btn:hover{transform:translateY(-2px);box-shadow:0 10px 30px #7be0c63d}.btn:active{transform:scale(.94)}.btn.ghost{background:#ffffff08;color:var(--ink);border:1px solid var(--line)}.btn.ghost:hover{border-color:var(--acc);box-shadow:none}.btn:disabled{opacity:.5;cursor:wait}
+.chips{display:flex;flex-wrap:wrap;gap:8px}.chip{border:1px solid var(--line);background:transparent;color:var(--ink);border-radius:99px;padding:8px 16px;font:inherit;font-size:14px;cursor:pointer;transition:.35s var(--e)}.chip:hover{border-color:var(--acc);color:var(--acc);transform:translateY(-2px)}.chip:active{transform:scale(.93)}.chip.on{background:var(--acc);color:#06130f;border-color:var(--acc)}
+.drop{border:2px dashed var(--line);border-radius:var(--r);padding:28px;text-align:center;color:var(--mute);cursor:pointer;transition:.4s var(--e)}.drop:hover,.drop.over{border-color:var(--acc);background:#7be0c610;color:var(--ink);transform:scale(1.01)}.drop.load{opacity:.6;pointer-events:none}
+textarea,input[type=text]{width:100%;border:1px solid var(--line);background:#0c0f15;color:var(--ink);border-radius:12px;padding:12px 14px;font:inherit;resize:vertical;transition:border-color .3s,box-shadow .3s}textarea:focus,input:focus{outline:0;border-color:var(--acc);box-shadow:0 0 0 3px #7be0c622}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:12px}.sp{flex:1}summary{cursor:pointer;margin-top:12px}
+.works{margin-top:14px;display:grid;gap:8px}.work{display:flex;align-items:center;gap:10px;border:1px solid var(--line);border-radius:12px;padding:9px 12px;font-size:14px;animation:pop .5s var(--e)}.work b{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:60%}.work span{color:var(--mute);margin-left:auto}.work button{background:none;border:0;color:var(--mute);cursor:pointer;font-size:18px;transition:.3s}.work button:hover{color:var(--bad);transform:rotate(90deg)}
 .empty{border:1px dashed var(--line);border-radius:12px;padding:14px;text-align:center;font-size:14px;color:var(--mute)}
-:focus-visible{outline:2px solid var(--acc);outline-offset:2px}.work b{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:60%}
-footer{text-align:center;color:var(--mute);font-size:13px;margin-top:30px}
-</style></head><body><div class="wrap">
+.meter{height:8px;background:var(--line);border-radius:9px;overflow:hidden;margin:14px 0 4px}.meter i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--acc),var(--a2));transition:width .7s var(--e)}
+.hero{display:grid;grid-template-columns:230px 1fr;gap:24px;align-items:center}@media(max-width:640px){.hero{grid-template-columns:1fr;text-align:center}}
+.pill{display:inline-block;padding:4px 14px;border-radius:99px;font-weight:600;font-size:14px;color:#06130f}.MATCH{background:var(--ok)}.UNCERTAIN{background:var(--mid)}.MISMATCH{background:var(--bad)}
+.bar{display:grid;grid-template-columns:130px 1fr 42px;gap:10px;align-items:center;font-size:14px;margin:8px 0}.bar div{height:9px;background:var(--line);border-radius:9px;overflow:hidden}.bar i{display:block;height:100%;width:0;background:var(--acc);transition:width 1s var(--e)}.bar.top i{background:var(--ok)}
+.strip{display:flex;height:14px;border-radius:9px;overflow:hidden;gap:2px;margin:12px 0}.strip i{display:block}.green{background:var(--ok)}.yellow{background:var(--mid)}.red{background:var(--bad)}.none{background:var(--line)}
+.para{font-size:14px;border-left:4px solid var(--line);padding:4px 12px;margin:8px 0;color:var(--mute)}.para.red{border-color:var(--bad)}.para.yellow{border-color:var(--mid)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:20px}@media(max-width:700px){.grid2{grid-template-columns:1fr}}#res{scroll-margin-top:70px}
+/* home */
+.hero0{min-height:100vh;min-height:100svh;display:grid;place-items:center;text-align:center;position:relative;padding:0 18px}
+.hero0 h1{font-size:clamp(40px,11.5vw,116px);line-height:1;font-weight:600;letter-spacing:-.04em}.hero0 h1 span{display:inline-block;opacity:0;transform:translateY(70px) rotate(7deg);animation:up .9s var(--e) forwards}@keyframes up{to{opacity:1;transform:none}}
+.hero0 p{color:var(--mute);max-width:520px;margin:16px auto 24px;animation:fade 1.2s .8s both}.hero0 .row{animation:fade 1.2s 1.1s both}@keyframes fade{from{opacity:0}}@keyframes pop{from{opacity:0;transform:scale(.94)}}
+.cue{position:absolute;bottom:16px;left:50%;width:22px;height:36px;border:2px solid var(--mute);border-radius:12px;transform:translateX(-50%)}.cue::after{content:"";position:absolute;left:50%;top:6px;width:4px;height:7px;margin-left:-2px;border-radius:3px;background:var(--mute);animation:cue 1.6s infinite}@keyframes cue{50%{transform:translateY(10px);opacity:.2}}
+#scrub{height:430vh;position:relative}#stage{position:sticky;top:0;height:100vh;height:100svh;display:grid;place-items:center;overflow:hidden}
+#scene{position:relative;width:min(420px,86vw);height:300px;margin-top:-12vh}
+.sheet{position:absolute;left:50%;top:50%;width:190px;height:250px;margin:-125px 0 0 -95px;background:var(--c2);border:1px solid var(--line);border-radius:10px;padding:18px 16px;box-shadow:0 18px 40px #0008;will-change:transform}.sheet u{display:block;height:6px;border-radius:4px;background:var(--line);margin:10px 0}
+#fp{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;gap:5px}#fp i{width:7px;border-radius:5px;background:var(--acc);height:8px}#gz{position:absolute;inset:0;display:grid;place-items:center;opacity:0}
+.cap{position:absolute;bottom:8vh;left:0;right:0;height:110px;text-align:center;padding:0 20px}.cap>div{position:absolute;left:0;right:0;opacity:0;transform:translateY(18px);transition:.6s var(--e)}.cap>div.on{opacity:1;transform:none}.cap h3{font-size:clamp(20px,3.4vw,34px)}.cap p{color:var(--mute);margin:6px 0 0}
+#dots{position:absolute;right:12px;top:50%;transform:translateY(-50%);display:grid;gap:12px}#dots button{width:9px;height:9px;border-radius:50%;border:0;padding:0;background:var(--line);cursor:pointer;transition:.4s var(--e)}#dots button.on{background:var(--acc);transform:scale(1.5)}
+#doors{position:absolute;left:50%;top:43%;width:min(780px,94vw);display:flex;align-items:center;transform:translate(-50%,-50%);pointer-events:none}
+.door{position:relative;flex:1;min-height:280px;overflow:hidden;border-radius:30px;padding:24px 22px;text-align:left;color:var(--ink);border:1px solid #ffffff1c;cursor:pointer;font:inherit;display:flex;flex-direction:column;opacity:0;will-change:transform;background:radial-gradient(circle at var(--mx,25%) var(--my,15%),var(--g),transparent 62%),linear-gradient(160deg,var(--c2),var(--card));transition:border-color .4s,box-shadow .5s var(--e)}
+.door.a{--g:#7be0c640;--k:var(--acc);margin:-44px -12px 0 0;z-index:1;box-shadow:0 30px 60px #0007}.door.b{--g:#f1b96a40;--k:var(--a2);margin-top:64px;box-shadow:0 30px 60px #0007}
+.door:hover{border-color:var(--k);box-shadow:0 30px 80px #000a,0 0 60px -10px var(--k)}
+.door em{position:absolute;top:-6px;right:12px;font:600 clamp(110px,17vw,170px)/1 Unbounded,sans-serif;font-style:normal;color:transparent;-webkit-text-stroke:1.5px var(--k);opacity:.45;transition:.7s var(--e);pointer-events:none}.door:hover em{opacity:1;transform:translateY(8px) scale(1.06)}
+.door h3{font-size:clamp(16px,2.5vw,23px);margin:auto 0 8px;max-width:85%}.door p{color:var(--mute);font-size:14px;margin:0;padding-right:56px}
+.viz{display:flex;align-items:center;margin-bottom:18px}.viz s{width:36px;height:36px;border-radius:50%;border:2px solid var(--card);margin-left:-11px;background:linear-gradient(135deg,var(--acc),#2a6f62);transition:transform .5s var(--e)}.viz s:first-child{margin-left:0}.viz s:nth-child(2n){background:linear-gradient(135deg,var(--a2),#8a5a1f)}.door:hover .viz s{transform:translateY(-6px)}.door:hover .viz s:nth-child(2n){transform:translateY(6px)}
+.fb{border:2px dashed #f1b96a77;border-radius:14px;padding:10px 14px;width:124px;transition:.5s var(--e)}.fb u{display:block;height:5px;border-radius:3px;background:var(--line);margin:7px 0}.fb u:nth-child(2){width:70%}.door:hover .fb{border-color:var(--a2);transform:rotate(-4deg) scale(1.06)}
+.go{position:absolute;right:20px;bottom:20px;width:46px;height:46px;border-radius:50%;display:grid;place-items:center;border:1px solid #ffffff33;font-size:20px;transition:.45s var(--e)}.door:hover .go{background:var(--k);color:#06130f;border-color:var(--k);transform:translateX(6px) rotate(-45deg)}
+@media(max-width:640px){#doors{flex-direction:column;gap:12px;top:40%}.door{min-height:150px;width:100%;padding:18px}.door.a,.door.b{margin:0}.door em{font-size:96px}.viz{display:none}.door h3{margin-top:auto}}
+/* overlays */
+#wipe{position:fixed;inset:0;z-index:40;pointer-events:none;opacity:0;background:radial-gradient(circle at 50% 50%,#173a36,#0a1514)}
+#modal[hidden]{display:none}#modal{position:fixed;inset:0;z-index:20;background:#05070b99;backdrop-filter:blur(5px);display:grid;place-items:center;padding:18px;animation:fade .3s}.mbox{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:24px;max-width:420px;width:100%;animation:pop .35s var(--e)}.mbox p{color:var(--mute);margin:8px 0 0}
+#toasts{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);display:grid;gap:8px;z-index:30;width:max-content;max-width:92vw}.toast{background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:12px;font-size:14px;display:flex;gap:14px;align-items:center;animation:pop .35s var(--e)}.toast.out{opacity:0;transform:translateY(8px);transition:.5s}.toast button{background:none;border:0;color:inherit;text-decoration:underline;font:inherit;cursor:pointer}
+body.busy .chip,body.busy .work button{pointer-events:none;opacity:.55}:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+@media(prefers-reduced-motion:reduce){*{transition-duration:.01s!important;animation-duration:.01s!important;animation-delay:0s!important}.rv{opacity:1;transform:none;filter:none}}
+</style></head><body>
 <div id="prog"></div><div id="glow"></div>
-<section class="hero0"><div id="floaties"></div><div><h1 id="ttl">Shyndyq</h1><p>Your writing has a fingerprint. Teach it with your earlier work, then see whether new text is really yours.</p><a class="btn" href="#build" style="text-decoration:none;display:inline-block">Start your portfolio</a></div><div class="cue"></div></section>
-<section id="scrub"><div id="stage"><div id="scene">
+<nav><b data-go="home">Shyndyq</b><button class="tab" data-v="auth" data-go="auth" data-i="n_auth"></button><button class="tab" data-v="mine" data-go="mine" data-i="n_mine"></button><i></i><button class="lg" data-l="0">EN</button><button class="lg" data-l="1">RU</button><button class="lg" data-l="2">ҚАЗ</button></nav>
+<main id="main" style="transition:opacity .2s">
+
+<section class="view on" id="v-home">
+<div class="hero0"><div><h1 id="ttl">Shyndyq</h1><p data-i="hp"></p><div class="row c"><button class="btn" data-go="mine" data-i="b_mine"></button><button class="btn ghost" data-go="auth" data-i="b_auth"></button></div></div><div class="cue"></div></div>
+<div id="scrub"><div id="stage"><div id="scene">
 <div class="sheet"><u></u><u></u><u style="width:70%"></u><u></u><u style="width:50%"></u></div><div class="sheet"><u></u><u style="width:80%"></u><u></u><u></u><u style="width:60%"></u></div><div class="sheet"><u></u><u></u><u style="width:65%"></u><u style="width:90%"></u><u></u></div>
-<div id="fp"></div><div id="gz"><svg viewBox="0 0 200 120" width="100%"><path d="M20 105A80 80 0 0 1 180 105" fill="none" stroke="var(--line)" stroke-width="16" stroke-linecap="round" pathLength="100"/><path id="garc" d="M20 105A80 80 0 0 1 180 105" fill="none" stroke="var(--ok)" stroke-width="16" stroke-linecap="round" pathLength="100" stroke-dasharray="0 100"/><text id="gnum" x="100" y="98" text-anchor="middle" font-family="Fraunces,serif" font-size="38" fill="var(--ink)">0%</text></svg></div></div>
-<div class="cap"><div class="on"><h3>Upload your earlier works</h3><p>Essays, stories, reports — a few is enough.</p></div><div><h3>We distill your style</h3><p>Rhythm, punctuation, function words: a unique fingerprint.</p></div><div><h3>Check anything, instantly</h3><p>A clear verdict on whether new text sounds like you.</p></div></div></div></section>
-<header style="display:none"><h1>Shyndyq</h1><p>Build a style portfolio from your earlier writing, then check any new text against it. Your works create a profile only; the model is never retrained on them.</p></header>
+<div id="fp"></div><div id="gz"><svg viewBox="0 0 200 120" width="100%"><path d="M20 105A80 80 0 0 1 180 105" fill="none" stroke="var(--line)" stroke-width="16" stroke-linecap="round" pathLength="100"/><path id="garc" d="M20 105A80 80 0 0 1 180 105" fill="none" stroke="var(--ok)" stroke-width="16" stroke-linecap="round" pathLength="100" stroke-dasharray="0 100"/><text id="gnum" x="100" y="98" text-anchor="middle" font-family="Unbounded,sans-serif" font-size="28" fill="var(--ink)">0%</text></svg></div></div>
+<div id="doors"><button class="door a" id="dA" data-go="auth"><em>05</em><div class="viz"><s></s><s></s><s></s><s></s><s></s></div><h3 data-i="b_auth"></h3><p data-i="da"></p><span class="go">→</span></button><button class="door b" id="dB" data-go="mine"><em>+</em><div class="viz"><div class="fb"><u></u><u></u><u></u></div></div><h3 data-i="n_mine"></h3><p data-i="dm"></p><span class="go">→</span></button></div>
+<div class="cap"><div class="on"><h3 data-i="c1t"></h3><p data-i="c1d"></p></div><div><h3 data-i="c2t"></h3><p data-i="c2d"></p></div><div><h3 data-i="c3t"></h3><p data-i="c3d"></p></div><div><h3 data-i="c4t"></h3><p data-i="c4d"></p></div></div>
+<div id="dots"></div></div></div>
+</section>
 
-<section class="card" id="build"><div class="step"><b>1</b><h2>Build your portfolio</h2></div>
-<p class="sub">Upload 3+ earlier works (≈1,500+ words in total gives the most reliable profile) — or start from a classic writer.</p>
-<p class="small" style="margin:0 0 12px"><b>Private by design:</b> your works stay in this browser tab and vanish when you close it. They are sent to the server only to run each check, and are never stored.</p><div class="chips" id="writers"></div>
-<div class="drop" id="drop" tabindex="0" role="button" aria-label="Upload earlier works"><span id="dtxt">Drop .txt, .docx or .pdf files here, or click to browse</span><input id="files" type="file" multiple accept=".txt,.docx,.pdf" hidden></div>
-<details style="margin-top:12px"><summary class="small" style="cursor:pointer">Or paste a text</summary><div style="margin-top:10px"><input type="text" id="ptitle" placeholder="Title (optional)"><textarea id="ptext" rows="5" placeholder="Paste an earlier work…" style="margin-top:8px"></textarea><div class="row"><button class="btn ghost" id="padd">Add to portfolio</button></div></div></details>
-<div class="works" id="works"></div>
-<div id="strength" style="display:none"><div class="meter"><i id="sbar"></i></div><div class="small" id="stxt"></div></div>
-<div class="err" id="e1" role="alert"></div>
-<div class="row"><span class="sp"></span><button class="btn ghost" id="clear" style="display:none">Clear portfolio</button></div></section>
+<section class="view" id="v-auth"><div class="wrap">
+<h1 class="rv" style="font-size:clamp(24px,5vw,40px)" data-i="b_auth"></h1><p class="sub rv" data-i="a_p"></p>
+<div class="card rv l"><div class="chips" id="wchips"></div></div>
+<div class="card rv r lock" id="aText"><textarea id="ta" rows="8" data-p="ph"></textarea><div class="row"><span class="small" id="wa"></span><span class="sp"></span><button class="chip" id="anew" data-i="a_new"></button><button class="btn ghost" id="cfa" data-i="file"></button><input id="fa" type="file" accept=".txt,.docx,.pdf" hidden><button class="btn" id="ga" data-i="go"></button></div><div class="err" id="ea" role="alert"></div></div>
+<div id="rh-auth"></div></div></section>
 
-<section class="card"><div class="step"><b>2</b><h2>Check a new text</h2></div>
-<textarea id="text" rows="8" placeholder="Paste the text you want to check — 250+ words works best…"></textarea>
-<div class="row"><span class="small" id="wc">0 words</span><span class="sp"></span><button class="chip" id="samp" style="display:none"></button><button class="btn ghost" id="cfile">Upload file</button><input id="cf" type="file" accept=".txt,.docx,.pdf" hidden><button class="btn" id="go">Analyze</button></div>
-<div class="err" id="e2" role="alert"></div></section>
+<section class="view" id="v-mine"><div class="wrap">
+<h1 class="rv" style="font-size:clamp(24px,5vw,40px)" data-i="m_h"></h1><p class="sub rv" data-i="m_p"></p>
+<div class="card rv l"><div class="drop" id="drop" tabindex="0" role="button"><span id="dtxt" data-i="drop"></span><input id="files" type="file" multiple accept=".txt,.docx,.pdf" hidden></div>
+<details><summary class="small" data-i="paste"></summary><div style="margin-top:10px"><input type="text" id="pt" data-p="ptitle"><textarea id="px" rows="5" data-p="ptext" style="margin-top:8px"></textarea><div class="row"><button class="btn ghost" id="padd" data-i="add"></button></div></div></details>
+<div class="works" id="works"></div><div class="meter"><i id="sb"></i></div><div class="small" id="stx"></div><div class="err" id="e1" role="alert"></div>
+<div class="row"><span class="sp"></span><button class="btn ghost" id="clear" data-i="clear"></button></div></div>
+<h2 class="rv" style="margin:36px 0 -6px" data-i="m_h2"></h2>
+<div class="card rv r lock" id="mText"><textarea id="tm" rows="8" data-p="ph"></textarea><div class="row"><span class="small" id="wm"></span><span class="sp"></span><button class="btn ghost" id="cfm" data-i="file"></button><input id="fm" type="file" accept=".txt,.docx,.pdf" hidden><button class="btn" id="gm" data-i="go"></button></div><div class="err" id="em" role="alert"></div></div>
+<div id="rh-mine"></div></div></section>
+</main>
 
-<section id="res">
-<div class="card"><div class="hero"><div><svg viewBox="0 0 200 120" width="100%"><path d="M20 105A80 80 0 0 1 180 105" fill="none" stroke="var(--line)" stroke-width="16" stroke-linecap="round" pathLength="100"/><path id="arc" d="M20 105A80 80 0 0 1 180 105" fill="none" stroke="var(--acc)" stroke-width="16" stroke-linecap="round" pathLength="100" stroke-dasharray="0 100" style="transition:stroke-dasharray .9s"/><text id="pct" x="100" y="98" text-anchor="middle" font-family="Fraunces,serif" font-size="38" fill="var(--ink)">0%</text></svg></div>
-<div><span class="pill" id="vp"></span><h3 style="margin:10px 0 6px">Match with your style</h3><p id="expl" style="margin:0"></p><p class="small" id="conf"></p></div></div></div>
-<div class="grid2"><div class="card"><h3>Closest classic writer</h3><p class="small">Which of the five reference writers the text resembles most.</p><div id="wbars"></div></div>
-<div class="card"><h3>AI-likeness <span class="small" style="font-family:Inter">· experimental</span></h3><p class="small" id="aisum"></p><div class="strip" id="strip"></div><div id="paras"></div></div></div>
-<p class="small" style="margin-top:16px">Results are statistical indicators, not proof. Reliability drops for short texts and small portfolios; models were trained on English prose only.</p></section>
-<div id="modal" hidden role="dialog" aria-modal="true" aria-labelledby="mt"><div class="mbox"><h3 id="mt"></h3><p id="mb"></p><div class="row" style="margin-top:20px"><span class="sp"></span><button class="btn ghost" id="mcancel">Cancel</button><button class="btn" id="mok"></button></div></div></div><div id="toasts" aria-live="polite"></div><noscript><p style="text-align:center;padding:20px">Shyndyq needs JavaScript. Please enable it and reload the page.</p></noscript>
-<footer>Shyndyq · authorship verification</footer></div>
+<div id="res" style="display:none">
+<div class="card rv"><div class="hero"><div><svg viewBox="0 0 200 120" width="100%"><path d="M20 105A80 80 0 0 1 180 105" fill="none" stroke="var(--line)" stroke-width="16" stroke-linecap="round" pathLength="100"/><path id="arc" d="M20 105A80 80 0 0 1 180 105" fill="none" stroke="var(--acc)" stroke-width="16" stroke-linecap="round" pathLength="100" stroke-dasharray="0 100" style="transition:stroke-dasharray 1.1s var(--e)"/><text id="pct" x="100" y="98" text-anchor="middle" font-family="Unbounded,sans-serif" font-size="28" fill="var(--ink)">0%</text></svg></div>
+<div><span class="pill" id="vp"></span><h3 style="margin:10px 0 6px" data-i="r_h"></h3><p class="small" id="ref" style="margin:0 0 6px"></p><p id="expl" style="margin:0"></p><p class="small" id="conf"></p></div></div></div>
+<div class="grid2"><div class="card rv l"><h3 data-i="cw"></h3><div id="wbars" style="margin-top:12px"></div></div><div class="card rv r"><h3 data-i="ai"></h3><p class="small" id="aisum"></p><div class="strip" id="strip"></div><div id="paras"></div></div></div>
+<p class="small rv" style="margin-top:16px" data-i="disc"></p></div>
+
+<div id="wipe"></div>
+<div id="modal" hidden role="dialog" aria-modal="true"><div class="mbox"><h3 id="mt"></h3><p id="mb"></p><div class="row" style="margin-top:20px"><span class="sp"></span><button class="btn ghost" id="mcancel" data-i="cancel"></button><button class="btn" id="mok" data-i="yes"></button></div></div></div><div id="toasts" aria-live="polite"></div>
+<noscript><p style="text-align:center;padding:80px 20px">Shyndyq needs JavaScript.</p></noscript>
 <script>
-const $=i=>document.getElementById(i),H={'X-Requested-With':'shyn'};
-const nice=n=>n.replace(/([a-z.])([A-Z])/g,'$1 $2');const KEY='shyn.portfolio',DROP='Drop .txt, .docx or .pdf files here, or click to browse',GEN='Something went wrong on our side. Please try again in a moment.';
-let S={works:[],preset:null,writers:[]},busy=false;
-try{const k=JSON.parse(sessionStorage.getItem(KEY)||'null');if(k&&Array.isArray(k.works))S={...S,works:k.works,preset:k.preset||null}}catch(e){}
-function el(t,c,x){const e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e}
-function toast(msg,act,fn){const t=el('div','toast');t.append(el('span','',msg));if(act){const b=el('button','',act);b.onclick=()=>{fn();t.remove()};t.append(b)}$('toasts').append(t);setTimeout(()=>t.classList.add('out'),act?6000:3800);setTimeout(()=>t.remove(),act?6600:4400)}
-function ask(title,body,ok){return new Promise(res=>{const m=$('modal'),prev=document.activeElement;$('mt').textContent=title;$('mb').textContent=body;$('mok').textContent=ok;m.hidden=false;
- const done=v=>{m.hidden=true;document.removeEventListener('keydown',k);if(prev&&prev.focus)prev.focus();res(v)};
- const k=e=>{if(e.key=='Escape')done(false);if(e.key=='Tab'){e.preventDefault();($('mok').matches(':focus')?$('mcancel'):$('mok')).focus()}};
- document.addEventListener('keydown',k);$('mok').onclick=()=>done(true);$('mcancel').onclick=()=>done(false);m.onclick=e=>{if(e.target==m)done(false)};$('mcancel').focus()})}
-const save=()=>{try{sessionStorage.setItem(KEY,JSON.stringify({works:S.works,preset:S.preset}))}catch(e){toast('Your portfolio is large, so it may not survive a page reload — it still works until you close this tab.')}};
-async function call(u,o={}){let r;try{r=await fetch(u,{...o,headers:{...H,...(o.headers||{})}})}catch(e){throw new Error("We can't reach the server. Please check your internet connection and try again.")}
- let j=null;try{j=await r.json()}catch(e){}
- if(!r.ok)throw new Error((j&&j.error)||({413:'That file is too large. Please use files under 4 MB.',429:"You're going a little fast. Please wait a few minutes and try again.",502:'The service is busy right now. Please try again in a moment.',503:'The service is busy right now. Please try again in a moment.',504:'That took too long. Please try again with a shorter text or a smaller portfolio.'})[r.status]||GEN);
- if(!j)throw new Error(GEN);return j}
-const wc=t=>t.trim().split(/\s+/).filter(Boolean).length,plural=(n,w)=>n+' '+w+(n==1?'':'s');
-const english=t=>{const L=(t.match(/\p{L}/gu)||[]).length;return L<20||(t.match(/[A-Za-z\u00C0-\u024F]/g)||[]).length/L>=.7};
-const setBusy=v=>{busy=v;document.body.classList.toggle('busy',v)};
-function addWork(title,text){text=text.trim();
- if(!english(text))return `“${title}” doesn't look like English. Shyndyq currently works with English text only.`;
- if(wc(text)<50)return `“${title}” is too short — please add a text of at least 50 words.`;
- if(S.works.some(w=>w.text===text))return `“${title}” is already in your portfolio.`;
- if(S.works.length>=30)return 'Your portfolio is full (30 works). Remove one to add another.';
- S.works.push({id:Math.random().toString(36).slice(2,9),title:title.slice(0,80),text,words:wc(text)})}
-const upd=errs=>{save();render();$('e1').textContent=(errs||[]).filter(Boolean).join(' ')};
-const fail=x=>upd([x.message]);
-async function startOwn(){if(!S.preset)return true;if(!await ask('Start your own portfolio?',`You're currently using sample excerpts by ${nice(S.preset)}. Adding your own work will remove them.`,'Start my own'))return false;S.works=[];S.preset=null;return true}
-async function loadPreset(w){if(busy)return;const n=S.works.length;if(n&&!S.preset&&!await ask('Replace your portfolio?',`This removes your ${plural(n,'work')} from this browser and loads sample excerpts by ${nice(w)} instead.`,'Replace'))return;
- setBusy(true);try{const r=await call('/p/api/preset/'+w);S.works=[];r.works.forEach((t,i)=>addWork('Excerpt '+(i+1),t));S.preset=w;upd();toast(`Loaded ${S.works.length} excerpts by ${nice(w)}. Try the sample passage in step 2!`)}catch(x){fail(x)}setBusy(false)}
-function removeWork(id){const i=S.works.findIndex(w=>w.id==id);if(i<0)return;const [w]=S.works.splice(i,1);upd();toast(`Removed “${w.title}”.`,'Undo',()=>{S.works.splice(i,0,w);upd()})}
-function render(){const W=$('writers');W.replaceChildren();
- S.writers.forEach(w=>{const b=el('button','chip'+(S.preset===w?' on':''),nice(w));b.setAttribute('aria-pressed',S.preset===w);b.onclick=()=>loadPreset(w);W.append(b)});
- const L=$('works');L.replaceChildren();if(!S.works.length)L.append(el('div','empty','No works yet — drop some files above, paste a text, or pick a writer to explore.'));
- S.works.forEach(w=>{const d=el('div','work');d.append(el('b','',w.title),el('span','',w.words.toLocaleString()+' words'));const x=el('button','','×');x.title='Remove this work';x.setAttribute('aria-label','Remove '+w.title);x.onclick=()=>removeWork(w.id);d.append(x);L.append(d)});
- const n=S.works.length,tw=S.works.reduce((a,w)=>a+w.words,0),p=Math.min(100,Math.round(Math.min(tw/6000,1)*70+Math.min(n/5,1)*30));
- $('strength').style.display=n?'block':'none';$('sbar').style.width=p+'%';$('clear').style.display=n?'':'none';
- $('stxt').textContent=n?`Profile strength ${p}% · ${plural(n,'work')} · ${tw.toLocaleString()} words`+(p<70?' — add more works for a sturdier profile':' — solid profile'):'';
- const sm=$('samp');if(S.preset){sm.style.display='';sm.textContent='Try a '+nice(S.preset)+' passage';sm.onclick=async()=>{if(busy)return;try{$('text').value=(await call('/p/api/sample/'+S.preset)).text;cnt();$('e2').textContent=''}catch(x){$('e2').textContent=x.message}}}else sm.style.display='none'}
-function pick(files){const errs=[],ok=[...files].filter(f=>{if(!/\.(txt|docx|pdf)$/i.test(f.name)){errs.push(`“${f.name}” isn't supported. Please use .txt, .docx or .pdf files.`);return false}if(f.size>4*2**20){errs.push(`“${f.name}” is too large (max 4 MB).`);return false}return true});return{ok,errs}}
-async function up(files){if(busy||!files.length)return;const {ok,errs}=pick(files);if(!ok.length)return upd(errs);if(ok.reduce((a,f)=>a+f.size,0)>4*2**20)return upd([...errs,'Those files are too large to upload together (max 4 MB in total). Please add them in smaller batches.']);if(!await startOwn())return;
- setBusy(true);$('drop').classList.add('load');$('dtxt').textContent='Reading your files…';const before=S.works.length;
- try{const f=new FormData();ok.forEach(x=>f.append('files',x));const r=await call('/p/api/extract',{method:'POST',body:f});errs.push(...r.errors,...r.works.map(w=>addWork(w.title,w.text)))}catch(x){errs.push(x.message)}
- $('drop').classList.remove('load');$('dtxt').textContent=DROP;setBusy(false);upd(errs);const n=S.works.length-before;if(n>0)toast(`Added ${plural(n,'work')} to your portfolio.`)}
-$('drop').onclick=()=>$('files').click();$('drop').onkeydown=e=>{if(e.key=='Enter'||e.key==' '){e.preventDefault();$('files').click()}};
-$('files').onchange=e=>{const f=[...e.target.files];e.target.value='';up(f)};
-['dragover','dragenter'].forEach(v=>$('drop').addEventListener(v,e=>{e.preventDefault();$('drop').classList.add('over')}));
-['dragleave','drop'].forEach(v=>$('drop').addEventListener(v,e=>{e.preventDefault();$('drop').classList.remove('over')}));
-$('drop').addEventListener('drop',e=>up([...e.dataTransfer.files]));['dragover','drop'].forEach(v=>addEventListener(v,e=>e.preventDefault()));
-$('padd').onclick=async()=>{const t=$('ptext').value;if(!t.trim())return upd(['Paste a text first, then press “Add to portfolio”.']);if(!await startOwn())return;const e=addWork($('ptitle').value.trim()||'Pasted text',t);if(!e){$('ptext').value='';$('ptitle').value='';toast('Added to your portfolio.')}upd([e])};
-$('clear').onclick=async()=>{const n=S.works.length;if(!n)return;if(await ask('Clear your portfolio?',`This removes ${plural(n,'work')} from this browser. You can't undo this.`,'Clear portfolio')){S.works=[];S.preset=null;upd();toast('Portfolio cleared.')}};
-const cnt=()=>{const n=wc($('text').value);$('wc').textContent=n.toLocaleString()+' words'+(n&&n<1200?' · under ~1,200 words results are only indicative':'')};
-$('text').oninput=cnt;$('cfile').onclick=()=>$('cf').click();
-$('cf').onchange=async e=>{const x=e.target.files[0];e.target.value='';if(!x||busy)return;const {ok,errs}=pick([x]);if(!ok.length){$('e2').textContent=errs[0];return}
- setBusy(true);try{const f=new FormData();f.append('files',x);const r=await call('/p/api/extract',{method:'POST',body:f});if(!r.works.length)throw new Error(r.errors[0]||"We couldn't read that file.");$('text').value=r.works[0].text;cnt();$('e2').textContent=''}catch(x){$('e2').textContent=x.message}setBusy(false)};
-async function go(){if(busy)return;$('e2').textContent='';const text=$('text').value;
- if(!S.works.length){$('e2').textContent='First add at least one earlier work to your portfolio (step 1).';const b=$('build');b.scrollIntoView({behavior:'smooth'});b.classList.remove('pulse');void b.offsetWidth;b.classList.add('pulse');return}
- if(!text.trim()){$('e2').textContent='Paste or upload the text you want to check.';return}
- if(wc(text)<50){$('e2').textContent='That text is too short to analyze. Please paste at least 50 words (1,200+ gives the most reliable answer).';return}
- if(!english(text)){$('e2').textContent="This text doesn't look like English. Shyndyq currently works with English text only.";return}
- setBusy(true);const b=$('go'),st=['Reading your portfolio…','Comparing writing styles…','Almost there…'];let i=0;b.disabled=true;b.textContent=st[0];const iv=setInterval(()=>{b.textContent=st[Math.min(++i,2)]},3500);
- try{show(await call('/p/api/check',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({works:S.works.map(w=>w.text),preset:S.preset,text})}))}catch(x){$('e2').textContent=x.message}
- clearInterval(iv);b.disabled=false;b.textContent='Analyze';setBusy(false)}
-$('go').onclick=go;
-function show(r){const v=r.verify,ab=r.wordCount<200,short=r.wordCount<1200,pc=Math.round(v.style_similarity_percent);let V=String(v.verdict).toUpperCase();if(short&&V=='MISMATCH')V='UNCERTAIN';if(ab)V='UNCERTAIN';
- const tw=S.works.reduce((a,w)=>a+w.words,0),col=V=='MATCH'?'ok':V=='MISMATCH'?'bad':'mid';
- $('res').style.display='block';$('pct').textContent=ab?'—':pc+'%';$('arc').setAttribute('stroke','var(--'+col+')');$('arc').setAttribute('stroke-dasharray','0 100');
- requestAnimationFrame(()=>requestAnimationFrame(()=>$('arc').setAttribute('stroke-dasharray',(ab?0:pc)+' 100')));
- const vp=$('vp');vp.className='pill '+V;vp.textContent={MATCH:'Matches your style',UNCERTAIN:'Not sure',MISMATCH:'Differs from your style'}[V];
- let msg={MATCH:'This text is very consistent with your earlier writing.',UNCERTAIN:'The style is somewhat similar to your portfolio, but not clearly enough to give a firm answer.',MISMATCH:'This text differs noticeably from your usual writing style. That alone is not proof someone else wrote it — topic, genre and mood can change how a person writes.'}[V];
- if(short&&!ab&&String(v.verdict).toUpperCase()!='MATCH')msg+=' The text is under ~1,200 words, so treat this as indicative only.';
- if(ab)msg='This text is too short to judge. Please check at least a few hundred words — 1,200+ gives the most reliable answer.';
- if(r.englishOnly)msg='Shyndyq only understands English, so this result may be unreliable.';
- $('expl').textContent=msg;$('conf').textContent=`Reliability: ${ab?'very low':short||tw<3000?'moderate':'good'} · ${r.wordCount.toLocaleString()} words checked against ${plural(S.works.length,'work')}`;
- const wb=$('wbars');wb.replaceChildren();if(r.writers){Object.entries(r.writers).sort((a,b)=>b[1]-a[1]).forEach(([k,p],i)=>{const d=el('div','bar'+(i?'':' top')),t=el('div'),f=el('i');f.style.width=Math.round(p*100)+'%';t.append(f);d.append(el('span','',nice(k)),t,el('span','',Math.round(p*100)+'%'));wb.append(d)})}else wb.append(el('p','small','Available for English texts only.'));
- const a=r.ai,s=$('strip'),P=$('paras');s.replaceChildren();P.replaceChildren();
- $('aisum').textContent=a.score==null?'Not checked — AI detection supports English only.':`Average AI-likeness ${Math.round(a.score*100)}%. This is a rough indicator, not proof — a small model, so please don't rely on it alone.`;
+const $=i=>document.getElementById(i),H={'X-Requested-With':'shyn'},el=(t,c,x)=>{const e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e};
+/* i18n: [en, ru, kk] */
+const D={
+hp:['Your writing has a fingerprint. Check whether a text sounds like a classic author — or like you.','У вашего текста есть отпечаток. Проверьте, звучит ли текст как классик — или как вы.','Жазуыңыздың өз саусақ ізі бар. Мәтін классикке немесе сізге ұқсай ма — тексеріңіз.'],
+b_mine:['Start your portfolio','Создать портфолио','Портфолио жасау'],b_auth:['Test on 5 classic authors','Проверка по 5 авторам','5 автор бойынша тексеру'],
+n_auth:['Authors','Авторы','Авторлар'],n_mine:['My portfolio','Моё портфолио','Менің портфолиом'],
+c1t:['Texts come in','Тексты загружаются','Мәтіндер жүктеледі'],c1d:['Your earlier works, or pages of a classic.','Ваши прежние работы или страницы классика.','Бұрынғы жұмыстарыңыз немесе классик беттері.'],
+c2t:['Style becomes a fingerprint','Стиль становится отпечатком','Стиль саусақ ізіне айналады'],c2d:['Rhythm, punctuation, function words.','Ритм, пунктуация, служебные слова.','Ырғақ, тыныс белгілері, көмекші сөздер.'],
+c3t:['New text gets a verdict','Новый текст получает вердикт','Жаңа мәтін үкім алады'],c3d:['How close it is to the profile, in percent.','Насколько он близок к профилю — в процентах.','Профильге қаншалықты жақын — пайызбен.'],
+c4t:['Choose your path','Выберите путь','Жолды таңдаңыз'],c4d:['Two separate modes.','Два отдельных режима.','Екі бөлек режим.'],
+da:['Ready-made profiles. Pick a writer, take a passage, check.','Готовые профили. Выберите автора, возьмите отрывок и проверьте.','Дайын профильдер. Автор таңдап, үзінді алып, тексеріңіз.'],
+dm:['Upload your own works and check new text against them.','Загрузите свои работы и сверяйте с ними новые тексты.','Өз жұмыстарыңызды жүктеп, жаңа мәтінді салыстырыңыз.'],
+a_p:['Pick a writer, then check a passage — ours or your own.','Выберите автора и проверьте отрывок — наш или свой.','Автор таңдап, үзіндіні тексеріңіз — біздікін немесе өзіңіздікін.'],a_new:['Another passage','Другой отрывок','Басқа үзінді'],
+m_h:['Build your portfolio','Соберите портфолио','Портфолио құрыңыз'],m_p:['Add 3+ earlier works (≈1,500+ words). Everything stays in this tab and is never stored.','Добавьте 3+ прежних работы (≈1500+ слов). Всё остаётся в этой вкладке и нигде не хранится.','3+ бұрынғы жұмыс қосыңыз (≈1500+ сөз). Барлығы осы бетте қалады, еш жерде сақталмайды.'],
+drop:['Drop .txt, .docx or .pdf here, or click','Перетащите .txt, .docx или .pdf или нажмите','.txt, .docx немесе .pdf файлды сүйреңіз не басыңыз'],reading:['Reading files…','Читаем файлы…','Файлдар оқылуда…'],
+paste:['Or paste a text','Или вставьте текст','Немесе мәтін қойыңыз'],ptitle:['Title (optional)','Название (необязательно)','Атауы (міндетті емес)'],ptext:['Paste an earlier work…','Вставьте прежнюю работу…','Бұрынғы жұмысты қойыңыз…'],
+add:['Add','Добавить','Қосу'],empty:['No works yet.','Пока нет работ.','Әзірге жұмыс жоқ.'],str:['Profile strength {p}% · {n} works · {w} words','Сила профиля {p}% · работ: {n} · слов: {w}','Профиль күші {p}% · жұмыс: {n} · сөз: {w}'],
+clear:['Clear','Очистить','Тазалау'],m_h2:['Check a new text','Проверьте новый текст','Жаңа мәтінді тексеріңіз'],
+ph:['Paste the text to check — 250+ words works best…','Вставьте текст — лучше от 250 слов…','Тексерілетін мәтінді қойыңыз — 250+ сөз жақсы…'],file:['Upload file','Файл','Файл'],go:['Analyze','Проверить','Тексеру'],
+st0:['Reading…','Читаем…','Оқып жатыр…'],st1:['Comparing styles…','Сравниваем стили…','Стильдер салыстырылуда…'],st2:['Almost there…','Почти готово…','Аз қалды…'],
+wn:['{n} words','{n} слов','{n} сөз'],wshort:['under ~1,200 words is only indicative','меньше ~1200 слов — лишь ориентир','~1200 сөзден аз — тек бағдар'],
+MATCH:['Matches','Совпадает','Сәйкес'],UNCERTAIN:['Not sure','Не уверены','Белгісіз'],MISMATCH:['Differs','Отличается','Ерекшеленеді'],
+r_h:['Style match','Совпадение стиля','Стиль сәйкестігі'],ref:['Compared with','Сравнение с','Салыстыру'],
+e_m:['Very consistent with the profile.','Очень согласуется с профилем.','Профильмен өте сәйкес.'],e_u:['Somewhat similar, but not clearly enough for a firm answer.','Есть сходство, но недостаточно для твёрдого ответа.','Ұқсастық бар, бірақ нақты жауапқа жеткіліксіз.'],
+e_x:['Differs noticeably. Topic, genre and mood change style — this is not proof.','Заметно отличается. Тема, жанр и настроение меняют стиль — это не доказательство.','Айтарлықтай ерекшеленеді. Тақырып, жанр, көңіл-күй стильді өзгертеді — бұл дәлел емес.'],
+e_t:['Too short to judge — add a few hundred words.','Слишком коротко для оценки — добавьте пару сотен слов.','Бағалау үшін тым қысқа — бірнеше жүз сөз қосыңыз.'],e_en:['English only: this result may be unreliable.','Только английский: результат может быть неточным.','Тек ағылшын: нәтиже дәл болмауы мүмкін.'],
+cf:['Reliability: {l} · {n} words','Надёжность: {l} · слов: {n}','Сенімділік: {l} · сөз: {n}'],
+cw:['Closest classic writer','Ближайший классик','Ең жақын классик'],ai:['AI-likeness · experimental','Похожесть на ИИ · эксперимент','ЖИ-ге ұқсастық · эксперимент'],
+ai_s:['Average {n}%. A rough indicator, not proof.','В среднем {n}%. Грубый индикатор, не доказательство.','Орташа {n}%. Шамамен көрсеткіш, дәлел емес.'],ai_no:['Not checked: English only.','Не проверено: только английский.','Тексерілмеді: тек ағылшын.'],
+disc:['Statistical indicators, not proof. Models were trained on English prose only.','Статистические индикаторы, не доказательство. Модели обучены только на английской прозе.','Статистикалық көрсеткіштер, дәлел емес. Модельдер тек ағылшын прозасында оқытылған.'],
+cl_t:['Clear portfolio?','Очистить портфолио?','Портфолионы тазалау?'],cl_b:['This removes {n} works from this tab. It can\'t be undone.','Из вкладки будут удалены работы: {n}. Это нельзя отменить.','Беттен жұмыстар жойылады: {n}. Қайтару мүмкін емес.'],
+yes:['Yes','Да','Иә'],cancel:['Cancel','Отмена','Бас тарту'],t_add:['Added: {n}','Добавлено: {n}','Қосылды: {n}'],t_rm:['Removed','Удалено','Жойылды'],undo:['Undo','Отменить','Қайтару'],t_clr:['Cleared','Очищено','Тазаланды'],tx:['Text','Текст','Мәтін'],
+e_unsup:['“{n}”: use .txt, .docx or .pdf','«{n}»: нужен .txt, .docx или .pdf','«{n}»: .txt, .docx немесе .pdf қажет'],e_big:['File too large (max 4 MB).','Файл слишком большой (макс. 4 МБ).','Файл тым үлкен (ең көбі 4 МБ).'],
+e_eng:['“{n}” isn\'t English — Shyndyq works with English only.','«{n}» не на английском — Shyndyq работает только с английским.','«{n}» ағылшынша емес — Shyndyq тек ағылшынмен жұмыс істейді.'],
+e_s50:['“{n}”: at least 50 words needed.','«{n}»: нужно минимум 50 слов.','«{n}»: кемінде 50 сөз қажет.'],e_dup:['“{n}” is already added.','«{n}» уже добавлено.','«{n}» бұрын қосылған.'],
+e_full:['Portfolio is full (30 works).','Портфолио заполнено (30 работ).','Портфолио толды (30 жұмыс).'],e_noport:['Add at least one work first.','Сначала добавьте хотя бы одну работу.','Алдымен кемінде бір жұмыс қосыңыз.'],
+e_notext:['Paste or upload a text to check.','Вставьте или загрузите текст.','Мәтінді қойыңыз немесе жүктеңіз.'],e_read:['Couldn\'t read “{n}”. Paste the text instead.','Не удалось прочитать «{n}». Вставьте текст.','«{n}» оқылмады. Мәтінді қойыңыз.'],
+net:['No connection to the server.','Нет связи с сервером.','Серверге қосылу жоқ.'],fast:['Too fast — wait a few minutes.','Слишком часто — подождите пару минут.','Тым жиі — бірнеше минут күтіңіз.'],busy:['Service is busy, try again.','Сервис занят, повторите.','Сервис бос емес, қайталаңыз.'],
+gen:['Something went wrong. Try again.','Что-то пошло не так. Повторите.','Бірдеңе дұрыс болмады. Қайталаңыз.'],leak:['This text is already in your portfolio.','Этот текст уже есть в портфолио.','Бұл мәтін портфолиода бар.'],
+noan:['Couldn\'t analyze: need English prose of 50+ words.','Не удалось: нужна английская проза от 50 слов.','Талдау мүмкін болмады: 50+ сөзді ағылшын прозасы қажет.']};
+const RL=[['very low','moderate','good'],['очень низкая','средняя','хорошая'],['өте төмен','орташа','жақсы']];
+let L=0;try{L=+(sessionStorage.getItem('shyn.l')??({ru:1,kk:2}[navigator.language.slice(0,2)]||0))}catch(e){}
+const t=(k,v)=>{let s=(D[k]||[k,k,k])[L];for(const x in v)s=s.replace('{'+x+'}',v[x]);return s},nice=n=>n.replace(/([a-z.])([A-Z])/g,'$1 $2');
+const wc=s=>s.trim().split(/\s+/).filter(Boolean).length,english=s=>{const n=(s.match(/\p{L}/gu)||[]).length;return n<20||(s.match(/[A-Za-z\u00C0-\u024F]/g)||[]).length/n>=.7};
+const cl=(x,a=0,b=1)=>Math.min(b,Math.max(a,x)),ez=x=>x*x*(3-2*x),RM=matchMedia('(prefers-reduced-motion:reduce)').matches;
+let M=[],writers=[],A={w:null,works:[]},LR=null,busy=false,cur='home',swi=false;const KEY='shyn.portfolio';
+try{const k=JSON.parse(sessionStorage.getItem(KEY)||'[]');M=Array.isArray(k)?k:(k&&!k.preset&&k.works)||[]}catch(e){}
+const setBusy=v=>{busy=!!v;document.body.classList.toggle('busy',busy)},save=()=>{try{sessionStorage.setItem(KEY,JSON.stringify(M))}catch(e){}};
+function toast(m,a,f){const x=el('div','toast');x.append(el('span','',m));if(a){const b=el('button','',a);b.onclick=()=>{f();x.remove()};x.append(b)}$('toasts').append(x);setTimeout(()=>x.classList.add('out'),a?6000:3200);setTimeout(()=>x.remove(),a?6600:3800)}
+function ask(ti,bo){return new Promise(res=>{const m=$('modal'),pv=document.activeElement;$('mt').textContent=ti;$('mb').textContent=bo;m.hidden=false;
+const done=v=>{m.hidden=true;document.removeEventListener('keydown',k);pv&&pv.focus&&pv.focus();res(v)},k=e=>{if(e.key=='Escape')done(false);if(e.key=='Tab'){e.preventDefault();($('mok').matches(':focus')?$('mcancel'):$('mok')).focus()}};
+document.addEventListener('keydown',k);$('mok').onclick=()=>done(true);$('mcancel').onclick=()=>done(false);m.onclick=e=>{if(e.target==m)done(false)};$('mcancel').focus()})}
+async function call(u,o={}){let r,j=null;try{r=await fetch(u,{...o,headers:{...H,...o.headers}})}catch(e){throw Error(t('net'))}
+try{j=await r.json()}catch(e){}
+if(!r.ok)throw Error(t(j&&j.k&&D[j.k]?j.k:({413:'e_big',429:'fast',502:'busy',503:'busy',504:'busy'})[r.status]||'gen'));if(!j)throw Error(t('gen'));return j}
+/* ---- routing with smooth transitions ---- */
+const VS=['home','auth','mine'],IO=new IntersectionObserver(es=>es.forEach((e,i)=>{if(e.isIntersecting){setTimeout(()=>e.target.classList.add('seen'),i*90);IO.unobserve(e.target)}}),{threshold:.1});
+function setView(v){cur=v;VS.forEach(x=>$('v-'+x).classList.toggle('on',x==v));document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('on',b.dataset.v==v));
+ scrollTo({top:0,behavior:'instant'});document.querySelectorAll('#v-'+v+' .rv').forEach(e=>{e.classList.remove('seen');IO.observe(e)});if(LR&&LR.host=='rh-'+v)show(0);tick()}
+async function go(v,b){if(v==cur||swi)return;swi=true;history.pushState(null,'','#'+v);
+ if(RM)setView(v);else{const q=b?b.getBoundingClientRect():{left:innerWidth/2,top:innerHeight/2,width:0,height:0},x=q.left+q.width/2,y=q.top+q.height/2,w=$('wipe');w.getAnimations().forEach(a=>a.cancel());
+ await w.animate([{clipPath:`circle(0 at ${x}px ${y}px)`,opacity:1},{clipPath:`circle(150vmax at ${x}px ${y}px)`,opacity:1}],{duration:560,easing:'cubic-bezier(.7,0,.2,1)',fill:'forwards'}).finished;
+ setView(v);await w.animate([{opacity:1},{opacity:0}],{duration:480,fill:'forwards'}).finished;w.getAnimations().forEach(a=>a.cancel())}swi=false}
+document.addEventListener('click',e=>{const b=e.target.closest('[data-go]');if(b)go(b.dataset.go,b)});
+addEventListener('popstate',()=>{const h=location.hash.slice(1);setView(VS.includes(h)?h:'home')});
+/* ---- language ---- */
+function applyLang(){document.documentElement.lang=['en','ru','kk'][L];document.querySelectorAll('[data-i]').forEach(e=>e.textContent=t(e.dataset.i));document.querySelectorAll('[data-p]').forEach(e=>e.placeholder=t(e.dataset.p));
+ document.querySelectorAll('.lg').forEach(b=>b.classList.toggle('on',+b.dataset.l==L));renderA();renderM();cnt('ta','wa');cnt('tm','wm');if(LR)show(0)}
+document.querySelectorAll('.lg').forEach(b=>b.onclick=()=>{if(+b.dataset.l==L)return;L=+b.dataset.l;try{sessionStorage.setItem('shyn.l',L)}catch(e){}const m=$('main');m.style.opacity=0;setTimeout(()=>{applyLang();m.style.opacity=1},200)});
+const cnt=(i,w)=>{const n=wc($(i).value);$(w).textContent=n?t('wn',{n:n.toLocaleString()})+(n<1200?' · '+t('wshort'):''):''};
+$('ta').oninput=()=>cnt('ta','wa');$('tm').oninput=()=>cnt('tm','wm');
+/* ---- authors mode ---- */
+function renderA(){const C=$('wchips');C.replaceChildren();writers.forEach(w=>{const b=el('button','chip'+(A.w===w?' on':''),nice(w));b.onclick=()=>pickW(w);C.append(b)});$('aText').classList.toggle('lock',!A.w)}
+async function pickW(w){if(busy||A.w===w)return;setBusy(1);try{const [p,s]=await Promise.all([call('/p/api/preset/'+w),call('/p/api/sample/'+w)]);A={w,works:p.works};$('ta').value=s.text;cnt('ta','wa');$('ea').textContent='';if(LR&&LR.host=='rh-auth'){$('res').style.display='none';LR=null}}catch(x){$('ea').textContent=x.message}setBusy(0);renderA()}
+$('anew').onclick=async()=>{if(busy||!A.w)return;setBusy(1);try{$('ta').value=(await call('/p/api/sample/'+A.w)).text;cnt('ta','wa');$('ea').textContent=''}catch(x){$('ea').textContent=x.message}setBusy(0)};
+/* ---- own portfolio mode ---- */
+function addWork(title,text){text=text.trim();const n=title;if(!english(text))return t('e_eng',{n});if(wc(text)<50)return t('e_s50',{n});if(M.some(w=>w.text===text))return t('e_dup',{n});if(M.length>=30)return t('e_full');M.push({id:Math.random().toString(36).slice(2,9),title:title.slice(0,80),text,words:wc(text)})}
+const upd=er=>{save();renderM();$('e1').textContent=(er||[]).filter(Boolean).join(' ')};
+function rm(id){const i=M.findIndex(w=>w.id==id);if(i<0)return;const [w]=M.splice(i,1);upd();toast(t('t_rm')+': '+w.title,t('undo'),()=>{M.splice(i,0,w);upd()})}
+function renderM(){const Lw=$('works');Lw.replaceChildren();if(!M.length)Lw.append(el('div','empty',t('empty')));
+ M.forEach(w=>{const d=el('div','work');d.append(el('b','',w.title),el('span','',t('wn',{n:w.words.toLocaleString()})));const x=el('button','','×');x.setAttribute('aria-label','×');x.onclick=()=>rm(w.id);d.append(x);Lw.append(d)});
+ const n=M.length,tw=M.reduce((a,w)=>a+w.words,0),p=Math.min(100,Math.round(Math.min(tw/6000,1)*70+Math.min(n/5,1)*30));
+ $('sb').style.width=p+'%';$('stx').textContent=n?t('str',{p,n,w:tw.toLocaleString()}):'';$('clear').style.display=n?'':'none';$('mText').classList.toggle('lock',!n)}
+async function up(files){if(busy||!files.length)return;const er=[],ok=[...files].filter(f=>{if(!/\.(txt|docx|pdf)$/i.test(f.name)){er.push(t('e_unsup',{n:f.name}));return 0}if(f.size>4*2**20){er.push(t('e_big'));return 0}return 1});
+ if(!ok.length||ok.reduce((a,f)=>a+f.size,0)>4*2**20)return upd(er.concat(ok.length?t('e_big'):[]));
+ setBusy(1);$('drop').classList.add('load');$('dtxt').textContent=t('reading');const b=M.length;
+ try{const f=new FormData();ok.forEach(x=>f.append('files',x));const r=await call('/p/api/extract',{method:'POST',body:f});er.push(...r.errors.map(e=>t(e.k,{n:e.n})),...r.works.map(w=>addWork(w.title,w.text)))}catch(x){er.push(x.message)}
+ $('drop').classList.remove('load');$('dtxt').textContent=t('drop');setBusy(0);upd(er);const n=M.length-b;if(n>0)toast(t('t_add',{n}))}
+const dr=$('drop');dr.onclick=()=>$('files').click();dr.onkeydown=e=>{if(e.key=='Enter'||e.key==' '){e.preventDefault();$('files').click()}};$('files').onchange=e=>{const f=[...e.target.files];e.target.value='';up(f)};
+['dragover','dragenter'].forEach(v=>dr.addEventListener(v,e=>{e.preventDefault();dr.classList.add('over')}));['dragleave','drop'].forEach(v=>dr.addEventListener(v,e=>{e.preventDefault();dr.classList.remove('over')}));
+dr.addEventListener('drop',e=>up([...e.dataTransfer.files]));['dragover','drop'].forEach(v=>addEventListener(v,e=>e.preventDefault()));
+$('padd').onclick=()=>{const x=$('px').value;if(!x.trim())return upd([t('e_notext')]);const e=addWork($('pt').value.trim()||t('tx'),x);if(!e){$('px').value='';$('pt').value='';toast(t('t_add',{n:1}))}upd([e])};
+$('clear').onclick=async()=>{const n=M.length;if(n&&await ask(t('cl_t'),t('cl_b',{n}))){M=[];upd();toast(t('t_clr'))}};
+const bindF=(b,i,ta,w,er)=>{$(b).onclick=()=>$(i).click();$(i).onchange=async e=>{const x=e.target.files[0];e.target.value='';if(!x||busy)return;if(!/\.(txt|docx|pdf)$/i.test(x.name))return $(er).textContent=t('e_unsup',{n:x.name});
+ setBusy(1);try{const f=new FormData();f.append('files',x);const r=await call('/p/api/extract',{method:'POST',body:f});if(!r.works.length){const q=r.errors[0]||{k:'gen'};throw Error(t(q.k,{n:q.n}))}$(ta).value=r.works[0].text;cnt(ta,w);$(er).textContent=''}catch(y){$(er).textContent=y.message}setBusy(0)}};
+bindF('cfa','fa','ta','wa','ea');bindF('cfm','fm','tm','wm','em');
+/* ---- analyze (shared) ---- */
+async function run(c){if(busy)return;const E=$(c.e),x=$(c.t).value,b=$(c.b);E.textContent='';
+ if(!x.trim())return E.textContent=t('e_notext');if(wc(x)<50)return E.textContent=t('e_s50',{n:t('tx')});if(!english(x))return E.textContent=t('e_eng',{n:t('tx')});
+ setBusy(1);b.disabled=true;let i=0;b.textContent=t('st0');const iv=setInterval(()=>b.textContent=t('st'+Math.min(++i,2)),3500);
+ try{LR={r:await call('/p/api/check',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({works:c.works(),preset:c.preset,text:x})}),host:c.host,tw:c.works().reduce((a,s)=>a+wc(s),0),mine:c.preset==null,n:c.works().length};show(1)}catch(y){E.textContent=y.message}
+ clearInterval(iv);b.disabled=false;b.textContent=t('go');setBusy(0)}
+$('ga').onclick=()=>A.w&&run({e:'ea',t:'ta',b:'ga',host:'rh-auth',works:()=>A.works,preset:A.w});
+$('gm').onclick=()=>M.length?run({e:'em',t:'tm',b:'gm',host:'rh-mine',works:()=>M.map(w=>w.text),preset:null}):$('em').textContent=t('e_noport');
+const cu=(e,to,ms=1000)=>{const s=performance.now(),f=n=>{const k=cl((n-s)/ms);e.textContent=Math.round(to*(1-Math.pow(1-k,3)))+'%';if(k<1)requestAnimationFrame(f)};requestAnimationFrame(f)};
+function show(sc){const {r,host,tw,mine,n}=LR,v=r.verify,ab=r.wordCount<200,sh=r.wordCount<1200,pc=Math.round(v.style_similarity_percent),res=$('res');let V=String(v.verdict).toUpperCase();if((sh&&V=='MISMATCH')||ab)V='UNCERTAIN';
+ const col=V=='MATCH'?'ok':V=='MISMATCH'?'bad':'mid';$(host).append(res);res.style.display='block';
+ $('arc').setAttribute('stroke','var(--'+col+')');$('arc').setAttribute('stroke-dasharray','0 100');requestAnimationFrame(()=>requestAnimationFrame(()=>$('arc').setAttribute('stroke-dasharray',(ab?0:pc)+' 100')));
+ if(sc&&!ab)cu($('pct'),pc);else $('pct').textContent=ab?'—':pc+'%';
+ $('vp').className='pill '+V;$('vp').textContent=t(V);$('ref').textContent=t('ref')+': '+(mine?t('n_mine')+' ('+n+')':nice(A.w));
+ $('expl').textContent=r.englishOnly?t('e_en'):ab?t('e_t'):t({MATCH:'e_m',UNCERTAIN:'e_u',MISMATCH:'e_x'}[V]);
+ $('conf').textContent=t('cf',{l:RL[L][ab?0:sh||(mine&&tw<3000)?1:2],n:r.wordCount.toLocaleString()});
+ const wb=$('wbars');wb.replaceChildren();if(r.writers)Object.entries(r.writers).sort((a,b)=>b[1]-a[1]).forEach(([k,p],i)=>{const d=el('div','bar'+(i?'':' top')),q=el('div'),f=el('i');q.append(f);d.append(el('span','',nice(k)),q,el('span','',Math.round(p*100)+'%'));wb.append(d);setTimeout(()=>f.style.width=Math.round(p*100)+'%',400+i*120)});else wb.append(el('p','small',t('ai_no')));
+ const a=r.ai,s=$('strip'),P=$('paras');s.replaceChildren();P.replaceChildren();$('aisum').textContent=a.score==null?t('ai_no'):t('ai_s',{n:Math.round(a.score*100)});
  a.paragraphs.forEach(p=>{const i=el('i',p.tier||'none');i.style.flex=Math.max(p.words,5);s.append(i)});
  a.paragraphs.filter(p=>p.tier=='red'||p.tier=='yellow').slice(0,6).forEach(p=>P.append(el('div','para '+p.tier,'“'+p.text.slice(0,150)+'…” · '+Math.round(p.score*100)+'%')));
- $('res').scrollIntoView({behavior:'smooth'})}
-/* ---- motion ---- */
-const cl=(x,a=0,b=1)=>Math.min(b,Math.max(a,x)),ez=t=>t*t*(3-2*t),RM=matchMedia('(prefers-reduced-motion:reduce)').matches;
-const T=$('ttl');T.innerHTML=[...'Shyndyq'].map((c,i)=>`<span style="animation-delay:${i*70}ms">${c}</span>`).join('');
-const FW=['voice','rhythm','comma','tone','syntax','cadence','diction','style'],FL=$('floaties');
-FW.forEach((w,i)=>{const e=el('span','floaty',w);e.style.left=(i%2?4+(i*7)%14:78+(i*5)%14)+'%';e.style.top=(10+(i*29)%72)+'%';e.dataset.s=(.05+(i%4)*.05)*(i%2?1:-1);FL.append(e)});
+ res.querySelectorAll('.rv').forEach((c,i)=>{c.classList.remove('seen');setTimeout(()=>c.classList.add('seen'),80+i*150)});if(sc)setTimeout(()=>res.scrollIntoView({behavior:'smooth'}),120)}
+/* ---- home scrub: every phase carries meaning, last one reforms into the two modes ---- */
+$('ttl').innerHTML=[...'Shyndyq'].map((c,i)=>`<span style="animation-delay:${i*70}ms">${c}</span>`).join('');
 const FP=$('fp');for(let i=0;i<25;i++)FP.append(document.createElement('i'));
-const SH=[...document.querySelectorAll('.sheet')],BR=[...FP.children],CP=[...document.querySelectorAll('.cap>div')];let ci=-1;
-function tick(){const y=scrollY,mx=document.documentElement.scrollHeight-innerHeight;$('prog').style.width=(mx>0?y/mx*100:0)+'%';
- document.querySelectorAll('.floaty').forEach(f=>f.style.transform=`translateY(${y*f.dataset.s}px)`);
- const r=$('scrub').getBoundingClientRect(),p=cl(-r.top/(r.height-innerHeight)),a=ez(cl(p/.3)),b=ez(cl((p-.33)/.3)),c=ez(cl((p-.68)/.3));
- SH.forEach((s,i)=>{const d=i-1;s.style.transform=`translate(${d*(1-a)*300+d*16*a}px,${(1-a)*120-b*20}px) rotate(${d*(1-a)*24+d*5*a*(1-b)}deg) scale(${1-b*.55})`;s.style.opacity=1-b});
+const SH=[...document.querySelectorAll('.sheet')],BR=[...FP.children],CP=[...document.querySelectorAll('.cap>div')],DT=$('dots'),PH=[.1,.37,.63,.93];let ci=-1;
+PH.forEach((p,i)=>{const b=el('button');b.setAttribute('aria-label',i+1);b.onclick=()=>{const s=$('scrub');scrollTo({top:scrollY+s.getBoundingClientRect().top+(s.offsetHeight-innerHeight)*p,behavior:'smooth'})};DT.append(b)});
+function tick(){const y=scrollY,mx=document.documentElement.scrollHeight-innerHeight;$('prog').style.width=(mx>0?y/mx*100:0)+'%';if(cur!='home')return;
+ const r=$('scrub').getBoundingClientRect(),p=cl(-r.top/(r.height-innerHeight)),a=ez(cl(p/.2)),b=ez(cl((p-.24)/.22)),c=ez(cl((p-.5)/.2)),d=ez(cl((p-.75)/.2));
+ SH.forEach((s,i)=>{const k=i-1;s.style.transform=`translate(${k*(1-a)*300+k*16*a}px,${(1-a)*120-b*20}px) rotate(${k*(1-a)*24+k*5*a*(1-b)}deg) scale(${1-b*.55})`;s.style.opacity=(1-b)*Math.min(1,a*2.5)});
  BR.forEach((e,i)=>{e.style.height=8+b*(26+Math.abs(Math.sin(i*1.7)+Math.cos(i*.6))*38)+'px';e.style.opacity=b*(1-c)});
- $('gz').style.opacity=c;$('garc').setAttribute('stroke-dasharray',c*94+' 100');$('gnum').textContent=Math.round(c*94)+'%';
- const k=p<.33?0:p<.68?1:2;if(k!=ci){ci=k;CP.forEach((e,i)=>e.classList.toggle('on',i==k))}}
-let tk=0;addEventListener('scroll',()=>{if(!tk)tk=requestAnimationFrame(()=>{tick();tk=0})},{passive:true});addEventListener('resize',tick);tick();
-const IO=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');IO.unobserve(e.target)}}),{threshold:.12});
-document.querySelectorAll('.card,footer,.sub').forEach((e,i)=>{e.classList.add('rv');e.style.transitionDelay=(i%3)*90+'ms';IO.observe(e)});
+ const g=$('gz');g.style.opacity=c*(1-d);g.style.transform=`scale(${1-d*.45}) translateY(${-d*40}px)`;$('garc').setAttribute('stroke-dasharray',c*94+' 100');$('gnum').textContent=Math.round(c*94)+'%';
+ [['dA',-1],['dB',1]].forEach(([id,s])=>{const e=$(id);e.style.opacity=d;e.style.transform=`translateX(${s*(1-d)*70}vw) rotate(${s*(1-d)*10}deg) scale(${.8+.2*d})`;e.style.pointerEvents=d>.9?'auto':'none'});
+ const k=p<.22?0:p<.5?1:p<.75?2:3;if(k!=ci){ci=k;CP.forEach((e,i)=>e.classList.toggle('on',i==k));[...DT.children].forEach((e,i)=>e.classList.toggle('on',i==k))}}
+let tk=0;addEventListener('scroll',()=>{if(!tk)tk=requestAnimationFrame(()=>{tick();tk=0})},{passive:true});addEventListener('resize',tick);
 if(!RM)addEventListener('pointermove',e=>{const g=$('glow');g.style.left=e.clientX+'px';g.style.top=e.clientY+'px'});
-const _show=show;show=function(r){_show(r);const e=$('res');e.querySelectorAll('.card').forEach(c=>{c.classList.remove('in');c.classList.add('rv');setTimeout(()=>c.classList.add('in'),60)})};
-render();call('/p/api/writers').then(r=>{S.writers=r.writers;render()}).catch(fail);
+document.querySelectorAll('.door').forEach(d=>d.addEventListener('pointermove',e=>{const r=d.getBoundingClientRect();d.style.setProperty('--mx',(e.clientX-r.left)/r.width*100+'%');d.style.setProperty('--my',(e.clientY-r.top)/r.height*100+'%')}));
+{const h=location.hash.slice(1);if(VS.includes(h)&&h!='home')setView(h);else tick()}
+applyLang();call('/p/api/writers').then(r=>{writers=r.writers;renderA()}).catch(()=>{});
 </script></body></html>
