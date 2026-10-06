@@ -5,6 +5,7 @@ and sends the texts with each check; the server builds the profile, answers, and
 Run: gunicorn portfolio_app:app --workers 1 --threads 4   (or: python portfolio_app.py)
 api_analyze.py is only used for its model loaders/thresholds; its API routes are not served."""
 import collections
+import os
 import random
 import time
 from pathlib import Path
@@ -12,6 +13,8 @@ from pathlib import Path
 import numpy as np
 from flask import Flask, jsonify, render_template, request
 
+# serverless hosts have a read-only disk except /tmp; api_analyze creates a (unused here) sqlite file on import
+os.environ.setdefault("SHYNDYQ_CANDIDATE_DB_PATH", "/tmp/candidate_texts.db")
 import api_analyze as api
 import author_verification as av
 import doc_extract
@@ -20,7 +23,7 @@ import train_verifier as tv
 ROOT = Path(__file__).parent
 api.MODEL_DIR = ROOT / "model_multiscale"
 app = Flask(__name__)
-app.config["MAX_CONTENT_LENGTH"] = 25 * 2**20
+app.config["MAX_CONTENT_LENGTH"] = 4 * 2**20  # Vercel rejects bigger requests (4.5 MB) before they reach us
 MAX_WORKS, MAX_WORK_CHARS, MAX_TOTAL = 30, 400_000, 2_500_000
 _CORPUS, _IMP = {}, {}  # public reference-writer data only (never user data)
 
@@ -55,7 +58,7 @@ def err(msg, code):
 
 @app.errorhandler(413)
 def _413(e):
-    return err("That file is too large. Please use files under 25 MB in total.", 413)
+    return err("That file is too large. Please use files under 4 MB in total.", 413)
 
 
 @app.errorhandler(404)

@@ -109,7 +109,7 @@ function ask(title,body,ok){return new Promise(res=>{const m=$('modal'),prev=doc
 const save=()=>{try{sessionStorage.setItem(KEY,JSON.stringify({works:S.works,preset:S.preset}))}catch(e){toast('Your portfolio is large, so it may not survive a page reload — it still works until you close this tab.')}};
 async function call(u,o={}){let r;try{r=await fetch(u,{...o,headers:{...H,...(o.headers||{})}})}catch(e){throw new Error("We can't reach the server. Please check your internet connection and try again.")}
  let j=null;try{j=await r.json()}catch(e){}
- if(!r.ok)throw new Error((j&&j.error)||({413:'That file is too large. Please use files under 25 MB.',429:"You're going a little fast. Please wait a few minutes and try again.",502:'The service is busy right now. Please try again in a moment.',503:'The service is busy right now. Please try again in a moment.',504:'That took too long. Please try again with a shorter text or a smaller portfolio.'})[r.status]||GEN);
+ if(!r.ok)throw new Error((j&&j.error)||({413:'That file is too large. Please use files under 4 MB.',429:"You're going a little fast. Please wait a few minutes and try again.",502:'The service is busy right now. Please try again in a moment.',503:'The service is busy right now. Please try again in a moment.',504:'That took too long. Please try again with a shorter text or a smaller portfolio.'})[r.status]||GEN);
  if(!j)throw new Error(GEN);return j}
 const wc=t=>t.trim().split(/\s+/).filter(Boolean).length,plural=(n,w)=>n+' '+w+(n==1?'':'s');
 const english=t=>{const L=(t.match(/\p{L}/gu)||[]).length;return L<20||(t.match(/[A-Za-z\u00C0-\u024F]/g)||[]).length/L>=.7};
@@ -134,8 +134,8 @@ function render(){const W=$('writers');W.replaceChildren();
  $('strength').style.display=n?'block':'none';$('sbar').style.width=p+'%';$('clear').style.display=n?'':'none';
  $('stxt').textContent=n?`Profile strength ${p}% · ${plural(n,'work')} · ${tw.toLocaleString()} words`+(p<70?' — add more works for a sturdier profile':' — solid profile'):'';
  const sm=$('samp');if(S.preset){sm.style.display='';sm.textContent='Try a '+nice(S.preset)+' passage';sm.onclick=async()=>{if(busy)return;try{$('text').value=(await call('/p/api/sample/'+S.preset)).text;cnt();$('e2').textContent=''}catch(x){$('e2').textContent=x.message}}}else sm.style.display='none'}
-function pick(files){const errs=[],ok=[...files].filter(f=>{if(!/\.(txt|docx|pdf)$/i.test(f.name)){errs.push(`“${f.name}” isn't supported. Please use .txt, .docx or .pdf files.`);return false}if(f.size>25*2**20){errs.push(`“${f.name}” is too large (max 25 MB).`);return false}return true});return{ok,errs}}
-async function up(files){if(busy||!files.length)return;const {ok,errs}=pick(files);if(!ok.length)return upd(errs);if(!await startOwn())return;
+function pick(files){const errs=[],ok=[...files].filter(f=>{if(!/\.(txt|docx|pdf)$/i.test(f.name)){errs.push(`“${f.name}” isn't supported. Please use .txt, .docx or .pdf files.`);return false}if(f.size>4*2**20){errs.push(`“${f.name}” is too large (max 4 MB).`);return false}return true});return{ok,errs}}
+async function up(files){if(busy||!files.length)return;const {ok,errs}=pick(files);if(!ok.length)return upd(errs);if(ok.reduce((a,f)=>a+f.size,0)>4*2**20)return upd([...errs,'Those files are too large to upload together (max 4 MB in total). Please add them in smaller batches.']);if(!await startOwn())return;
  setBusy(true);$('drop').classList.add('load');$('dtxt').textContent='Reading your files…';const before=S.works.length;
  try{const f=new FormData();ok.forEach(x=>f.append('files',x));const r=await call('/p/api/extract',{method:'POST',body:f});errs.push(...r.errors,...r.works.map(w=>addWork(w.title,w.text)))}catch(x){errs.push(x.message)}
  $('drop').classList.remove('load');$('dtxt').textContent=DROP;setBusy(false);upd(errs);const n=S.works.length-before;if(n>0)toast(`Added ${plural(n,'work')} to your portfolio.`)}
