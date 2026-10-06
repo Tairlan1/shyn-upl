@@ -236,6 +236,22 @@ def check():
                                          "score": p["aiScore"], "tier": p["aiTier"]} for p in paras]},
         writers=wr)
 
+@app.post("/p/api/ai")
+def ai_only():  # standalone AI-likeness check: no author profile or portfolio needed
+    if limited("a", 40):
+        return err("You're going a little fast. Please wait a few minutes and try again.", 429, "fast")
+    text = str((request.get_json(silent=True) or {}).get("text", ""))[:MAX_WORK_CHARS]
+    if len(text.split()) < 50:
+        return err("We couldn't analyze this text. Please check that it's English prose of at least 50 words.", 400, "noan")
+    pipe, le = api._load_style_model()
+    ok = not av.detect_script(text)["likely_non_english"]
+    paras = [api._analyze_paragraph(p, "", pipe, le, ok) for p in api._split_paragraphs(text)[:80]]
+    sc = [p for p in paras if p["aiScore"] is not None]
+    tw = sum(p["wordCount"] for p in sc)
+    score = round(sum(p["aiScore"] * p["wordCount"] for p in sc) / tw, 4) if ok and sc and tw else None  # word-weighted mean
+    return jsonify(wordCount=len(text.split()), englishOnly=not ok, score=score,
+                   paragraphs=[{"text": p["text"][:300], "words": p["wordCount"], "score": p["aiScore"], "tier": p["aiTier"]} for p in paras])
+
 
 if __name__ == "__main__":
     app.run(host="127.0.0.1", port=5002)
